@@ -1,0 +1,105 @@
+.dispatch-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1em;
+  overflow-y: visible;
+}
+
+.dispatch-errors {
+  text-align: center;
+  font-size: 1.1em;
+}
+
+.gray {
+  color: gray;
+}
+
+#map {
+  width: 100%;
+}
+
+svg text {
+  font-size: 2.8em;
+}
+
+#dispatch-options {
+  display: flex;
+  gap: 1em;
+  flex-direction: column;
+  align-items: center;
+  & div {
+    display: flex;
+    flex-direction: row;
+    width: auto;
+    & label {
+      font-weight: bold;
+    }
+    & input {
+      width: auto;
+      position: relative;
+      top: -2px;
+    }
+  }
+}
+
+.dispatch-table {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  align-items: center;
+  gap: 1.3em;
+  & table {
+    table-layout: fixed;
+    width: 90%;
+  }
+  & tr {
+    cursor: pointer;
+  }
+  & input[type='button'] {
+    background-color: #08d242;
+    width: 220px;
+    border: none;
+    font-family: inherit;
+    font-size: 1.1em;
+    color: #fff;
+    border-color: transparent;
+    border-radius: 3px;
+    height: auto;
+    padding: 5px;
+    cursor: pointer;
+    &:active {
+      transform: translateY(4px);
+    }
+  }
+}
+
+@media (width>760px) {
+  svg text {
+    font-size: 1.8em;
+  }
+}
+
+@media (width>1050px) {
+  #dispatch-options {
+    flex-direction: row;
+  }
+  svg text {
+    font-size: 0.8em;
+  }
+}
+
+@media (width>2000px) {
+  .dispatch-table {
+    & input[type='button'] {
+      width: 300px;
+      padding: 10px;
+    }
+  }
+  .dispatch-menu {
+    & button {
+      width: 300px;
+    }
+  }
+}

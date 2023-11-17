@@ -1,0 +1,70 @@
+.promomessage-wrapper {
+  display: none;
+}
+.promomessage-wrapper_active {
+  display: flex;
+  position: absolute;
+  left: 0%;
+  right: 0%;
+  top: 15%;
+  justify-content: center;
+  z-index: 100;
+  width: 100%;
+  background-color: transparent;
+  animation: descend 1.5s linear;
+  animation-fill-mode: forwards;
+  & div {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    gap: 10px;
+    align-items: center;
+    border-radius: 3px;
+    background-color: white;
+    padding: 10px 0;
+    border: 2px solid darkgrey;
+  }
+}
+
+#promo-heading {
+  width: 100%;
+  background-color: white;
+  color: black;
+  padding: 0;
+}
+
+#promo-image {
+  width: 30px;
+}
+
+@keyframes descend {
+  0% {
+    top: 0px;
+  }
+
+  100% {
+    top: 15%;
+  }
+}
+
+@media (width>1000px) {
+  #promo-image {
+    width: 60px;
+  }
+  .promomessage-wrapper_active {
+    & div {
+      width: 500px;
+    }
+  }
+}
+
+@media (width > 2000px) {
+  #promo-image {
+    width: 90px;
+  }
+  .promomessage-wrapper_active {
+    & div {
+      width: 700px;
+    }
+  }
+}

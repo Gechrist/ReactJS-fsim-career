@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Career" ALTER COLUMN "flightHours" SET DEFAULT 0.0,
+ALTER COLUMN "name" SET DEFAULT '';

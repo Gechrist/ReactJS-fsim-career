@@ -1,0 +1,214 @@
+html,
+body {
+  margin: 0px;
+  padding: 0px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  background-color: #f1f1f1;
+  font-family: URW DIN, sans serif;
+  font-size: clamp(0.8rem, 0.7164rem + 0.4179vw, 1.5rem);
+  line-height: 1.5;
+  & table {
+    background-color: #f9f9fc;
+  }
+  & input {
+    background-color: #f9f9fc;
+  }
+}
+@font-face {
+  font-family: 'URW DIN';
+  src: url('./assets/fonts/URWDIN-Regular.woff2') format('woff2'),
+    url('./assets/fonts/URWDIN-Regular.woff') format('woff'),
+    url('./assets/fonts/URWDIN-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+button {
+  background-color: #0059d6;
+  font-family: inherit;
+  font-size: 1.1em;
+  color: #fff;
+  border-color: transparent;
+  border-radius: 3px;
+  width: 220px;
+  height: auto;
+  padding: 5px;
+  cursor: pointer;
+  &:active {
+    transform: translateY(4px);
+  }
+  &:disabled {
+    transform: translate(0px);
+  }
+}
+
+.green-save-button {
+  background-color: #08d242;
+}
+
+.red-reset-button {
+  background-color: #d60f0f;
+}
+
+.light {
+  background-color: #ececef;
+}
+
+.dark {
+  background-color: #1a1b25;
+  color: white;
+  & table {
+    background-color: #1a1b25;
+    color: white;
+  }
+  & input {
+    background-color: #1a1b25;
+    color: white;
+  }
+  & input::placeholder {
+    color: lightgray;
+  }
+  & dialog {
+    background-color: #1a1b25;
+    color: white;
+    &:hover {
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.9),
+        0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+  }
+
+  & select {
+    background-color: #1a1b25;
+    color: white;
+  }
+  & label {
+    color: white;
+  }
+
+  & button {
+    background-color: #3f5675;
+  }
+
+  & input[type='radio'],
+  input[type='checkbox'] {
+    accent-color: #3f5675;
+  }
+
+  & .green-save-button {
+    background-color: #435748;
+  }
+
+  & .red-reset-button {
+    background-color: #834545;
+  }
+
+  & .toggle-switch {
+    background: #435748;
+  }
+
+  & .toggle-checkbox:checked + .toggle-switch {
+    background: #435748;
+  }
+
+  & .pilotcard-wrapper {
+    background-color: #282a39;
+    color: white;
+    &:hover {
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.9),
+        0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+  }
+  & #promo-heading {
+    background-color: #282a39;
+    color: white;
+  }
+  & .promomessage-wrapper_active {
+    & div {
+      background-color: #282a39;
+      color: white;
+    }
+  }
+  & .faq-wrapper {
+    background-color: #1a1b25;
+    color: white;
+  }
+
+  & #search-button {
+    color: white;
+  }
+
+  & .navBar-wrapper,
+  .user-menu,
+  .user-menu-options,
+  th,
+  .career-options-sidebar {
+    background-color: #282a39;
+  }
+
+  & .navBar-wrapper {
+    & button {
+      background-color: #282a39;
+    }
+  }
+  ,
+  & .user-menu,
+  .user-menu-options {
+    & button {
+      background-color: #282a39;
+    }
+  }
+
+  & .career-options-sidebar {
+    & section:hover {
+      background-color: #1a1b25;
+    }
+  }
+  & .footer {
+    background: linear-gradient(to right, #282a39, #424955 50%, #525f67 75%);
+  }
+}
+
+span {
+  color: rgb(214, 15, 15);
+  display: inline-block;
+  width: 100%;
+  font-size: 0.875rem;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input:disabled {
+  color: darkgrey;
+}
+
+.footer {
+  margin-top: auto;
+  width: 100%;
+  color: white;
+  background: linear-gradient(to right, #060698, #284d8d 50%, #117abb 75%);
+  height: 3em;
+  display: flex;
+  text-align: center;
+  flex-direction: row;
+  gap: 0.5em;
+  align-items: center;
+  justify-content: center;
+  & a {
+    color: yellow;
+    font-weight: bold;
+    text-decoration: none;
+  }
+}
+
+input:focus {
+  background-color: #858de0;
+}

@@ -1,0 +1,57 @@
+#root {
+  display: flex;
+  flex-flow: column nowrap;
+  flex-grow: 1;
+}
+
+.container {
+  display: flex;
+  height: calc(100dvh - 3em);
+  min-height: 100dvh;
+  background-image: url('/mobile-landing-image.webp');
+  background-size: cover;
+  background-position: right;
+  width: 100%;
+  min-height: 100%;
+}
+
+.intro_login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  & h1 {
+    font-style: italic;
+    font-size: 2.8em;
+    height: 0.5em;
+  }
+  & p {
+    height: 1.5em;
+  }
+}
+
+@media (width >= 760px) {
+  .container {
+    background-image: none;
+  }
+  .img {
+    background-image: url('/landing-image.webp');
+    background-size: cover;
+    background-position: right 82% bottom 45%;
+    width: 50%;
+    min-height: 100%;
+  }
+  .intro_login {
+    width: 50%;
+    & h1 {
+      font-size: 3em;
+    }
+  }
+}
+
+@media (width >= 1000px) {
+  .img {
+    background-position: right 100% bottom 45%;
+  }
+}

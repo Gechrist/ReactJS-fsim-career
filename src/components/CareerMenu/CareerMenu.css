@@ -1,0 +1,74 @@
+.career-menu-wrapper {
+  width: 100%;
+  height: calc(100dvh - 3.5em);
+  display: flex;
+  flex-direction: row;
+}
+
+.career-menu-sidebar {
+  width: auto;
+  height: 100%;
+  background-color: #060698;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 0.2em;
+  & section {
+    height: 2em;
+  }
+  & section:first-child {
+    margin-top: 1em;
+  }
+  & section:hover {
+    background-color: #050569;
+  }
+}
+
+.career-menu-main {
+  width: 80%;
+  height: 94%;
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.career-menu-button {
+  display: flex;
+  width: auto;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+  gap: 0.5em;
+  justify-content: flex-start;
+  padding: 0 5px;
+  height: 20px;
+  & p {
+    display: none;
+  }
+  & img {
+    width: 15px;
+  }
+}
+
+@media (width > 500px) {
+  .career-menu-sidebar {
+    width: 160px;
+  }
+}
+
+@media (width > 2000px) {
+  .career-menu-sidebar {
+    width: 205px;
+  }
+}
+
+@media (width >760px) {
+  .career-menu-button {
+    & p {
+      display: block;
+    }
+    & img {
+      width: 20px;
+    }
+  }
+}

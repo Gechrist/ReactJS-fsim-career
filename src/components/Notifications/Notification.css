@@ -1,0 +1,39 @@
+.notification-wrapper {
+  display: none;
+}
+.notification-wrapper_active {
+  display: block;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 15%;
+  z-index: 100;
+  animation: descend 1.5s linear;
+  animation-fill-mode: forwards;
+}
+
+h3 {
+  text-align: center;
+  color: white;
+  margin: auto;
+  padding: 10px;
+  width: 280px;
+  background-color: #08d242;
+  border-radius: 3px;
+}
+
+@keyframes descend {
+  0% {
+    top: 0px;
+  }
+
+  100% {
+    top: 15%;
+  }
+}
+
+@media (width>1400px) {
+  h3 {
+    width: 500px;
+  }
+}

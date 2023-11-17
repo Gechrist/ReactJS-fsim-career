@@ -1,0 +1,97 @@
+.navBar-wrapper {
+  width: 100%;
+  background-color: #060698;
+  height: 3.5em;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+  & h1 {
+    color: white;
+    padding-left: 4px;
+    font-size: 1.4em;
+  }
+  & button {
+    background-color: transparent;
+    width: auto;
+    &:hover {
+      color: #ebeb16;
+    }
+  }
+
+  & #links {
+    width: auto;
+    padding-right: 8px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 1em;
+    & :active {
+      transform: none !important;
+    }
+
+    & .user-menu {
+      width: auto;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      & Link {
+        color: white;
+      }
+      &:first-child {
+        height: 3.5em;
+      }
+      &:active {
+        transform: none !important;
+      }
+      &:hover .user-menu-settings {
+        display: flex;
+        flex-direction: column;
+      }
+
+      & .welcome {
+        padding-bottom: 0;
+        font-size: 1.1em;
+        width: 100%;
+        &:hover {
+          color: #ebeb16;
+        }
+      }
+
+      & .user-menu-settings {
+        border-radius: 0 0 6px 6px;
+        position: absolute;
+        top: 3.5em;
+        width: 100%;
+        height: auto;
+        z-index: 1000;
+        display: none;
+        background-color: #060698;
+        text-align: center;
+      }
+    }
+  }
+
+  & .careers-link {
+    text-decoration: none;
+    color: white;
+  }
+}
+
+@media (width>500px) {
+  .navBar-wrapper {
+    & h1 {
+      padding-left: 160px;
+    }
+  }
+}
+
+@media (width > 2000px) {
+  .navBar-wrapper {
+    & h1 {
+      padding-left: 205px;
+    }
+  }
+}

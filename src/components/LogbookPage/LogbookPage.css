@@ -1,0 +1,167 @@
+.logbook-wrapper {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  font-size: 0.8em;
+}
+
+.logbook-options {
+  display: block;
+  height: 95%;
+  width: 95%;
+  overflow: auto;
+  padding: 10px 0;
+  margin: auto;
+}
+
+.logbook-table {
+  height: auto;
+  width: 199%;
+  border: 1px solid darkgrey;
+  border-collapse: collapse;
+  table-layout: fixed;
+  padding: 0;
+}
+th,
+td {
+  overflow-x: hidden;
+  text-align: center;
+  padding: 0;
+  & input {
+    border: none;
+    font-size: 1em;
+    padding: 0;
+    width: 100%;
+    text-align: center;
+  }
+}
+
+.expand-table {
+  position: relative;
+  & img {
+    position: absolute;
+    right: 0;
+    top: 2px;
+    height: 70%;
+  }
+}
+
+.table-navigation {
+  margin-top: 4px;
+  display: flex;
+  width: 100%;
+  height: auto;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid lightgrey;
+  padding: 20px 0;
+  & div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 5px;
+    width: 99%;
+  }
+  & .buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 2px;
+  }
+  & .page-controls,
+  .search-controls {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1px;
+  }
+  & .search-controls {
+    width: 99%;
+    gap: 5px;
+  }
+  & button {
+    width: 20px;
+    background-color: darkgrey;
+    color: black;
+    &:disabled {
+      background-color: lightgrey;
+      cursor: not-allowed;
+    }
+  }
+  & input {
+    width: 15px;
+    height: 10px;
+    font-size: 0.7rem;
+  }
+}
+
+#search-input {
+  width: 100%;
+}
+
+#search-button {
+  width: 50px;
+}
+.collapse-table-part_active {
+  visibility: collapse;
+}
+
+#entry-submit-button {
+  display: flex;
+  justify-content: center;
+  margin: 10px auto;
+}
+
+@media (width>720px) {
+  .logbook-table {
+    width: 100%;
+    & img {
+      display: none;
+    }
+  }
+  .collapse-table-part_active {
+    visibility: visible;
+  }
+  .table-navigation {
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 5px;
+    & div {
+      padding-left: 2px;
+      flex-direction: row;
+      width: auto;
+      justify-content: flex-start;
+      gap: 15px;
+    }
+    & button {
+      width: 30px;
+    }
+    & #search-button {
+      width: 70px;
+    }
+    & .search-controls {
+      width: 30%;
+      gap: 5px;
+    }
+  }
+}
+
+@media (width > 2000px) {
+  .table-navigation {
+    & div {
+      gap: 20px;
+    }
+    & button {
+      width: 50px;
+    }
+    & #search-button {
+      width: 90px;
+    }
+    & input {
+      width: 30px;
+      font-size: 1em;
+    }
+  }
+}

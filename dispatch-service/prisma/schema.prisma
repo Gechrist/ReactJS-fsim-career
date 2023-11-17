@@ -1,0 +1,26 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:../Database.db"
+}
+
+
+
+model Routes {
+  id                                                Int               @id @default(autoincrement())
+  company                                           String
+  icaoDep                                           String
+  icaoArr                                           String
+  aircraft                                          String
+  depTime                                           String
+  flightNo                                          String
+  depLat                                            Float
+  depLong                                           Float
+  arrLat                                            Float
+  arrLong                                           Float
+  distance                                          Int
+}
