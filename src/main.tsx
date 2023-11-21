@@ -15,6 +15,7 @@ import Settings from './components/Settings/Settings';
 import Faq from './components/FAQ/Faq';
 import CareerMenu from './components/CareerMenu/CareerMenu';
 import './index.css';
+import CookieConsent from 'react-cookie-consent';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -75,6 +76,14 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         <QueryClientProvider client={queryClient}>
           <ReactQueryDevtools initialIsOpen={false} />
           <StateContextProvider>
+            <CookieConsent
+              location="bottom"
+              buttonText="I agree"
+              style={{ justifyContent: 'space-around' }}
+            >
+              This website uses cookies. By continuing to use this site you are
+              agreeing to our use of cookies.
+            </CookieConsent>
             <RouterProvider router={router} />
           </StateContextProvider>
         </QueryClientProvider>

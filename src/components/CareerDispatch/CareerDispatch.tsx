@@ -12,6 +12,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { Helmet } from 'react-helmet-async';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Notification from '../Notifications/Notification';
 import axios from 'axios';
 import world from './worldCountries.json';
 import './CareerDispatch.css';
@@ -28,8 +29,9 @@ const CareerDispatch = ({ careerData }: { careerData: any }) => {
   const [inclAircraft, setInclAircraft] = useState<boolean>(true);
   const [inclCompany, setInclCompany] = useState<boolean>(true);
   const [isFetching, setIsFetching] = useState<boolean>(false);
-  const [saveDispatch, setSaveDispatch] = useState<boolean>(false);
+  const [isSaving, setIsSaving] = useState<boolean>(false);
   const [toggleComplete, setToggleComplete] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>('');
   const [dispatchData, setDispatchData] = useState<any>([]);
   const [lineCoords, setLineCoords] = useState<Array<number | null>>([]);
   const [icaoAirports, setIcaoAirports] = useState<Array<string | null>>([]);
@@ -56,7 +58,7 @@ const CareerDispatch = ({ careerData }: { careerData: any }) => {
   const crudService = import.meta.env.VITE_CRUD_SERVICE_PORT;
   const dispatchService = import.meta.env.VITE_DISPATCH_SERVICE_PORT;
 
-  const handleDispatch = () => {
+  const handleNewDispatch = () => {
     lineCoords.splice(0, lineCoords.length);
     setErrorMessages({
       aircraft: '',
@@ -74,9 +76,6 @@ const CareerDispatch = ({ careerData }: { careerData: any }) => {
           setErrorMessages({ ...errorMessages, ...data });
         } else if (data && !data.message) {
           setDispatchData([...data]);
-          if (!saveDispatch) {
-            setSaveDispatch(true);
-          }
         }
       },
     });
@@ -197,17 +196,30 @@ const CareerDispatch = ({ careerData }: { careerData: any }) => {
   }, [getDispatchData.data]);
 
   useEffect(() => {
-    if (dispatchData && (saveDispatch || toggleComplete)) {
+    if (dispatchData && toggleComplete) {
       saveDispatchDataMutation.mutate();
     }
     colorizeDispatchLinesFunction(dispatchData);
   }, [dispatchData]);
 
   const saveDispatchDataMutation = useMutation({
-    mutationFn: async () => {
+    mutationFn: () => {
       return saveDispatchDataFunction();
     },
   });
+
+  const handleSaveDispatch = () => {
+    setMessage('');
+    setIsSaving(true);
+    saveDispatchDataMutation.mutate({} as unknown as void, {
+      onSettled: (data) => {
+        setIsSaving(false);
+        if (data && data?.message.includes('succesfully')) {
+          setMessage(data.message);
+        }
+      },
+    });
+  };
 
   const saveDispatchDataFunction = async () => {
     const accessToken = await getAccessTokenSilently();
@@ -271,6 +283,7 @@ const CareerDispatch = ({ careerData }: { careerData: any }) => {
         <title>Dispatch - FlightSim Career</title>
         <link rel="canonical" href="/dashboard/pilot" />
       </Helmet>
+      {message && <Notification message={message} />}
       <div className="dispatch-menu">
         <h2>Dispatch</h2>
         <div id="dispatch-options">
@@ -402,14 +415,30 @@ const CareerDispatch = ({ careerData }: { careerData: any }) => {
               </span>
             )
         )}
-        <div>
+        <div className="dispatch-buttons">
           {isFetching ? (
-            <button onClick={() => handleDispatch()}>
+            <button onClick={() => handleNewDispatch()}>
               <FontAwesomeIcon icon={faCircleNotch} spin />
               &nbsp; New Dispatch{' '}
             </button>
           ) : (
-            <button onClick={() => handleDispatch()}>New Dispatch </button>
+            <button onClick={() => handleNewDispatch()}>New Dispatch </button>
+          )}
+          {isSaving ? (
+            <button
+              className="green-save-button"
+              onClick={() => handleSaveDispatch()}
+            >
+              <FontAwesomeIcon icon={faCircleNotch} spin />
+              &nbsp; Save Dispatch{' '}
+            </button>
+          ) : (
+            <button
+              className="green-save-button"
+              onClick={() => handleSaveDispatch()}
+            >
+              Save Dispatch{' '}
+            </button>
           )}
         </div>
         <div id="map">
