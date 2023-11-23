@@ -31,6 +31,7 @@ const CareerDispatch = ({ careerData }: { careerData: any }) => {
   const [isFetching, setIsFetching] = useState<boolean>(false);
   const [isSaving, setIsSaving] = useState<boolean>(false);
   const [toggleComplete, setToggleComplete] = useState<boolean>(false);
+  const [showCoords, setShowCoords] = useState<boolean>(false);
   const [message, setMessage] = useState<string>('');
   const [dispatchData, setDispatchData] = useState<any>([]);
   const [lineCoords, setLineCoords] = useState<Array<number | null>>([]);
@@ -60,6 +61,7 @@ const CareerDispatch = ({ careerData }: { careerData: any }) => {
 
   const handleNewDispatch = () => {
     lineCoords.splice(0, lineCoords.length);
+    setShowCoords(false);
     setErrorMessages({
       aircraft: '',
       base: '',
@@ -271,6 +273,7 @@ const CareerDispatch = ({ careerData }: { careerData: any }) => {
     icaoDep: string,
     icaoArr: string
   ) => {
+    setShowCoords(true);
     lineCoords.splice(0, lineCoords.length);
     setLineCoords([...lineCoords, depLong, depLat, arrLong, arrLat]);
     icaoAirports.splice(0, icaoAirports.length);
@@ -471,6 +474,7 @@ const CareerDispatch = ({ careerData }: { careerData: any }) => {
               />
             )}
             {icaoAirports.length > 0 &&
+              showCoords &&
               icaoAirports.map((airport: any, index: number) => (
                 <Annotation
                   key={index}
@@ -480,16 +484,16 @@ const CareerDispatch = ({ careerData }: { careerData: any }) => {
                       : [lineCoords[2] as number, lineCoords[3] as number]
                   }
                   dx={0}
-                  dy={-10}
+                  dy={index === 0 ? 10 : -10}
                   connectorProps={{
                     stroke: '#FF5533',
-                    strokeWidth: 1,
+                    strokeWidth: 0.5,
                     strokeLinecap: 'round',
                   }}
                 >
                   <text
                     x="0"
-                    y="-8"
+                    y={index === 0 ? '8' : '-8'}
                     textAnchor="middle"
                     alignmentBaseline="middle"
                     fill="#F53"
