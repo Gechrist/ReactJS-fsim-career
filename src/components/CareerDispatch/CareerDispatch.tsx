@@ -484,7 +484,7 @@ const CareerDispatch = ({ careerData }: { careerData: any }) => {
                       : [lineCoords[2] as number, lineCoords[3] as number]
                   }
                   dx={0}
-                  dy={index === 0 ? 10 : -10}
+                  dy={index === 0 ? -10 : 10}
                   connectorProps={{
                     stroke: '#FF5533',
                     strokeWidth: 0.5,
@@ -493,7 +493,7 @@ const CareerDispatch = ({ careerData }: { careerData: any }) => {
                 >
                   <text
                     x="0"
-                    y={index === 0 ? '8' : '-8'}
+                    y={index === 0 ? '-8' : '8'}
                     textAnchor="middle"
                     alignmentBaseline="middle"
                     fill="#F53"
