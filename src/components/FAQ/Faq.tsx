@@ -22,7 +22,11 @@ const Faq = () => {
   const faqs: Array<{ q: string; a: string }> = [
     {
       q: 'What is FlightSim Career?',
-      a: 'FlightSim Career is a portal for Flight Sim enthusiasts that want to  record their progress.',
+      a: 'FlightSim Career is a hub for Flight Sim enthusiasts that want to immerse themselves into their virtual careers. They can get dispatches for their next flight, record their progress in the logbook and get promoted to senior ranks as their career progresses.',
+    },
+    {
+      q: 'Is FlightSim Career free?',
+      a: 'FlightSim Career is completely free of charge. If you would like to help with server and maintenance costs, you can use the Donate button in the footer. It would be highly appreciated.',
     },
     {
       q: 'What is Automatic Advancement?',
@@ -46,7 +50,7 @@ const Faq = () => {
     },
     {
       q: 'Are helicopters supported?',
-      a: 'Although FlightSim Career was designed with fixed wing aircraft in mind there is nothing to preclude the use of helicopters. Bear in mind though that generated flights are based on real fixed-wing traffic.',
+      a: 'Although FlightSim Career was designed with fixed wing aircraft in mind.',
     },
     {
       q: "I don't know how to create logbooks",

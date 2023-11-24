@@ -25,7 +25,7 @@
 // helmet titles, description, canonical link for SEO DONE
 // check why pilot options aren't loading on the first attempt DONE
 // move validation errors from mutate() onError to onSettled DONE
-// upgrade to tanStack v5 https://tkdodo.eu/blog/breaking-react-querys-api-on-purpose
+// first check if there is direct flight from current location to base. If not, get all destinations. Check if the first one has direct fligth to base, the second one and so on and so forth. Don't know what happens if company and aircraft are unchecked.
 // prepare vite-express for deployment
 // Remove tanstack dev tools before deployment
 // domain + hosting?
