@@ -38,7 +38,7 @@ const Faq = () => {
     },
     {
       q: 'How does Dispatch work?',
-      a: 'The Dispatch system will automatically take in account the aircraft and the company of the given career and generate flights that match with them. You can choose how many legs to generate. For every leg option, double the number of flights will be generated as for every flight, a return flight is also generated. Hence, if you choose 1 leg, the system will generate 2 flights, 2 legs 4 flights and so on and so forth. There are also options to determine the minimum and maximum distance of a leg. Bear in mind that these settings apply to all generated legs.',
+      a: "The Dispatch system will take in account by default the aircraft and the company of the given career and generate flights that match with them, although you can choose to disregard the aircraft and/or the company. The Dispatch system will attempt to generate as many legs as chosen by the user, however there will be cases that it generates one more leg as it will always produce a last flight back to the pilot's base.",
     },
     {
       q: 'There is a message to check my settings and try again when I am trying to generate flights. What does it mean?',

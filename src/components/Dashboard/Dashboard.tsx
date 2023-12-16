@@ -246,7 +246,11 @@ const Dashboard = () => {
                 {careersData.data?.message && <h2>No careers found</h2>}
                 {careersData.data?.length === 0 && <h2>No careers found</h2>}
               </div>
-              <button onClick={() => navigate('/dashboard/new')}>
+              <button
+                onClick={() => {
+                  navigate('/dashboard/new');
+                }}
+              >
                 New Career
               </button>
             </div>

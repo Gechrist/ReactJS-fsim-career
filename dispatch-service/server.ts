@@ -66,6 +66,17 @@ app.use('/api/dispatch', apiRouter);
 app.use(errorHandler);
 app.use(notFoundHandler);
 
+type Flight = {
+  depTime: string;
+  icaoDep: string;
+  icaoArr: string;
+  flightNo: string;
+  depLat: number;
+  depLong: number;
+  arrLat: number;
+  arrLong: number;
+};
+
 let flights: Array<any> = [];
 let returningFlights: Array<any> = [];
 let randomisedNumber: Array<string> = [
@@ -87,6 +98,51 @@ let errorMessages: {
   minLeg?: string;
   maxLeg?: string;
 } = {};
+
+const randomizeFlights = (array: Flight[]) => {
+  return array.sort(() => Math.random() - 0.5);
+};
+
+const generateReturningFlights = (flights: Flight[]) => {
+  // reverse order of flights to return to base
+  returningFlights = lodash.cloneDeep(flights);
+  returningFlights.reverse().forEach((element) => {
+    [
+      element['icaoDep'],
+      element['icaoArr'],
+      element['depLat'],
+      element['depLong'],
+      element['arrLat'],
+      element['arrLong'],
+    ] = [
+      element['icaoArr'],
+      element['icaoDep'],
+      element['arrLat'],
+      element['arrLong'],
+      element['depLat'],
+      element['depLong'],
+    ];
+
+    // randomize return dep time
+    let randomTime: string = randomTimeFunction();
+    while (randomTime === element.depTime) {
+      randomTime = randomTimeFunction();
+    }
+    element.depTime = randomTime;
+
+    // randomize return flight no
+    let randomNumber: string = randomisedNumber[Math.floor(Math.random() * 10)];
+
+    while (randomNumber === element.flightNo[element.flightNo.length]) {
+      randomNumber = randomisedNumber[Math.floor(Math.random() * 10)];
+    }
+
+    element.flightNo =
+      element.flightNo.substring(0, element.flightNo.length - 1) + randomNumber;
+  });
+
+  return returningFlights;
+};
 
 // validate dispatch data
 const dispatchDataValidation = object({
@@ -137,21 +193,23 @@ const randomTimeFunction = () => {
   return String(hFormat + hrs + ':' + mFormat + mins);
 };
 
-const getFlights = async (
+const getRoutes = async (
   dep: string,
   minLeg: number,
   maxLeg: number,
   aircraft: string,
-  company: string
+  company: string,
+  arr: string | null,
+  returnOneLeg: boolean
 ) => {
-  let legFlights: Array<any>;
-  legFlights = await prisma.routes.findMany({
+  let flightLegs = await prisma.routes.findMany({
     where: {
       icaoDep: dep,
       distance: {
         lt: maxLeg,
         gt: minLeg,
       },
+      ...(arr && { icaoArr: arr }),
       ...(aircraft && { aircraft: { contains: aircraft } }),
       ...(company && { company: { contains: company } }),
     },
@@ -167,13 +225,15 @@ const getFlights = async (
     },
   });
 
-  if (legFlights.length > 0) {
+  if (flightLegs.length > 0 && returnOneLeg) {
     const randomLeg =
-      legFlights[Math.floor(Math.random() * legFlights.length) as number];
-    return { randomLeg };
-  } else {
-    return { randomLeg: null };
+      flightLegs[Math.floor(Math.random() * flightLegs.length) as number];
+    return randomLeg as Flight;
+  } else if (flightLegs.length > 0 && !returnOneLeg) {
+    return flightLegs as Flight[];
   }
+  let randomLeg: any = undefined;
+  return randomLeg;
 };
 
 apiRouter.get(
@@ -229,12 +289,14 @@ apiRouter.post('/generatedispatch', validateAccessToken, async (req, res) => {
     assert(dispatchData, dispatchDataValidation);
     for (let i: number = 0; i < legNumber; i++) {
       if (i === 0) {
-        let { randomLeg } = await getFlights(
+        let randomLeg: Flight = await getRoutes(
           base,
           minLeg,
           maxLeg,
           aircraft,
-          company
+          company,
+          null,
+          true
         );
         if (!randomLeg) {
           res.status(200).send({
@@ -251,12 +313,14 @@ apiRouter.post('/generatedispatch', validateAccessToken, async (req, res) => {
           flights.push(randomLeg);
         }
       } else {
-        let { randomLeg } = await getFlights(
+        let randomLeg: Flight = await getRoutes(
           flights[i - 1].icaoArr,
           minLeg,
           maxLeg,
           aircraft,
-          company
+          company,
+          null,
+          true
         );
 
         if (!randomLeg) {
@@ -280,47 +344,69 @@ apiRouter.post('/generatedispatch', validateAccessToken, async (req, res) => {
       return;
     }
 
-    // reverse order of flights to return to base
-    returningFlights = lodash.cloneDeep(flights);
-    returningFlights.reverse().forEach((element) => {
-      [element['icaoDep'], element['icaoArr']] = [
-        element['icaoArr'],
-        element['icaoDep'],
-      ];
-      [
-        element['depLat'],
-        element['depLong'],
-        element['arrLat'],
-        element['arrLong'],
-      ] = [
-        element['arrLat'],
-        element['arrLong'],
-        element['depLat'],
-        element['depLong'],
-      ];
+    // generate return legs if necessary
+    if (flights[0].icaoDep !== flights[flights.length - 1].icaoArr) {
+      let numOutgoingFlights = flights.length;
 
-      // randomize return dep time
-      let randomTime: string = randomTimeFunction();
-      while (randomTime === element.depTime) {
-        randomTime = randomTimeFunction();
+      let returningLeg = await getRoutes(
+        flights[flights.length - 1].icaoArr,
+        minLeg,
+        maxLeg,
+        aircraft,
+        company,
+        flights[0].icaoDep,
+        true
+      );
+      if (returningLeg) {
+        // remove airline code from flight number
+        returningLeg.flightNo = returningLeg.flightNo.substring(
+          3,
+          returningLeg.flightNo.length
+        );
+        flights.push(returningLeg);
+      } else {
+        let outboundFromLast: Flight[] = await getRoutes(
+          flights[flights.length - 1].icaoArr,
+          minLeg,
+          maxLeg,
+          aircraft,
+          company,
+          null,
+          false
+        );
+        if (outboundFromLast.length > 0) {
+          outboundFromLast = randomizeFlights(outboundFromLast);
+          let flight: any;
+          for (flight of outboundFromLast) {
+            let returnToStart = await getRoutes(
+              flight.icaoArr,
+              minLeg,
+              maxLeg,
+              aircraft,
+              company,
+              flights[0].icaoDep,
+              true
+            );
+            if (returnToStart) {
+              // remove airline code from flight number
+              flight.flightNo = flight.flightNo.substring(
+                3,
+                flight.flightNo.length
+              );
+              returnToStart.flightNo = returnToStart.flightNo.substring(
+                3,
+                returnToStart.flightNo.length
+              );
+              flights = flights.concat(flight, returnToStart);
+              break;
+            }
+          }
+        }
+        if (numOutgoingFlights === flights.length) {
+          flights = flights.concat(generateReturningFlights(flights));
+        }
       }
-      element.depTime = randomTime;
-
-      // randomize return flight no
-      let randomNumber: string =
-        randomisedNumber[Math.floor(Math.random() * 10)];
-
-      while (randomNumber === element.flightNo[element.flightNo.length]) {
-        randomNumber = randomisedNumber[Math.floor(Math.random() * 10)];
-      }
-
-      element.flightNo =
-        element.flightNo.substring(0, element.flightNo.length - 1) +
-        randomNumber;
-    });
-
-    returningFlights[returningFlights.length];
-    flights = flights.concat(returningFlights);
+    }
     res.status(200).send(flights);
   } catch (e) {
     (e: Error) => console.log('Error:', e.message);

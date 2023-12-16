@@ -3,7 +3,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { IErrorMessage } from '../../../crud-service/routes/router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Helmet, HelmetProvider } from 'react-helmet-async';
+import { Helmet } from 'react-helmet-async';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import Notification from '../Notifications/Notification';
