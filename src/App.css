@@ -27,7 +27,12 @@
     height: 0.5em;
   }
   & p {
-    height: 1.5em;
+    height: 0.8em;
+    font-weight: bold;
+  }
+  & li {
+    font-style: italic;
+    font-weight: bold;
   }
 }
 

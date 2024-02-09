@@ -7,7 +7,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = "placeholder"
 }
 
 model User{
@@ -69,4 +69,19 @@ model Entry{
   createdAt DateTime @default(now())
 }
 
-//TODO migrate for aircraft type instead of code
+//Dispatch db
+
+model Routes {
+  id                                                Int               @id @default(autoincrement())
+  company                                           String
+  icaoDep                                           String
+  icaoArr                                           String
+  aircraft                                          String
+  depTime                                           String
+  flightNo                                          String
+  depLat                                            Float
+  depLong                                           Float
+  arrLat                                            Float
+  arrLong                                           Float
+  distance                                          Int
+}

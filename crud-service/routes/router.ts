@@ -16,7 +16,10 @@ import {
 import { createPaginator, PaginatedResult } from 'prisma-pagination';
 import express from 'express';
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({
+  datasources: { db: { url: process.env.USER_DATABASE_URL } },
+});
+
 const paginate = createPaginator({ perPage: 10 });
 
 interface IPaginatedEntry extends PaginatedResult<Entry> {

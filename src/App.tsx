@@ -24,6 +24,12 @@ const App = () => {
         <section className="intro_login">
           <h1>FlightSim Career</h1>
           <p>Your one-stop service hub for a virtual flight career!</p>
+          <ul>
+            <li>Create careers</li>
+            <li>Get dispatches</li>
+            <li>Log your flight hours</li>
+            <li>Track your progress automatically</li>
+          </ul>
           <button onClick={() => loginWithRedirect()}>Connect</button>
         </section>
       </div>

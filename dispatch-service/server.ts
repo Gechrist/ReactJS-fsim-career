@@ -15,7 +15,9 @@ import * as dotenv from 'dotenv';
 
 dotenv.config();
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({
+  datasources: { db: { url: process.env.ROUTES_DATABASE_URL } },
+});
 
 const PORT = process.env.VITE_DISPATCH_SERVICE_PORT;
 const CLIENT_ORIGIN_URL = process.env.VITE_CLIENT_ORIGIN_URL;
