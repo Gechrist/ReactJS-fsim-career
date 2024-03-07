@@ -1,0 +1,18 @@
+name: Deploy migrations to supabase DBs
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Apply pending migrations to users database
+        run: npx prisma migrate deploy --schema=./prisma/prismaclients/users/schema.prisma
+        env:
+          DATABASE_URL: ${{ secrets.SUPABASE_USERS_DB_CONNECTION_STRING }}
+      - name: Apply pending migrations to routes database
+        run: npx prisma migrate deploy --schema=./prisma/prismaclients/routes/schema.prisma
+        env:
+          DATABASE_URL: ${{ secrets.SUPABASE_ROUTES_DB_CONNECTION_STRING }}
