@@ -10,8 +10,12 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
-      - name: Connect pending migrations to env file
-        run: npx prisma generate --schema=prisma/users/schema.prisma
+      - name: Setup Node
+        uses: actions/setup-node@v3
+      - name: Install dependencies
+        run: npm install
+      - name: Build
+        run: npm run build
       - name: Deploy migrations to users database
         run: npx prisma migrate deploy --schema=prisma/users/schema.prisma
         env:
@@ -19,4 +23,4 @@ jobs:
       - name: Apply pending migrations to routes database
         run: npx prisma migrate deploy --schema=prisma/routes/schema.prisma
         env:
-          DIRECT_URL: ${{ secrets.SUPABASE_ROUTES_DB_CONNECTION_STRING }}
+          DIRECT_URL: ${{ secrets.SUPABASE_ROUTES_DIRECTURL }}
