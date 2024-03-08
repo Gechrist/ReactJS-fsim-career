@@ -10,7 +10,9 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
-      - name: Apply pending migrations to users database
+      - name: Connect pending migrations to env file
+        run: npx prisma generate --schema=prisma/users/schema.prisma
+      - name: Deploy migrations to users database
         run: npx prisma migrate deploy --schema=prisma/users/schema.prisma
         env:
           DIRECT_URL: ${{ secrets.SUPABASE_USERS_DIRECTURL }}
