@@ -13,8 +13,8 @@ jobs:
       - name: Apply pending migrations to users database
         run: npx prisma migrate deploy --schema=prisma/users/schema.prisma
         env:
-          DATABASE_URL: ${{ secrets.SUPABASE_USERS_DB_CONNECTION_STRING }}
+          DIRECT_URL: ${{ secrets.SUPABASE_USERS_DB_CONNECTION_STRING }}
       - name: Apply pending migrations to routes database
         run: npx prisma migrate deploy --schema=prisma/routes/schema.prisma
         env:
-          DATABASE_URL: ${{ secrets.SUPABASE_ROUTES_DB_CONNECTION_STRING }}
+          DIRECT_URL: ${{ secrets.SUPABASE_ROUTES_DB_CONNECTION_STRING }}
