@@ -183,7 +183,7 @@ const CareerDispatch = ({ careerData }: { careerData: any }) => {
       );
       return data;
     } catch (err) {
-      console.error(err.message);
+      console.error(err);
       setErrorMessages({
         ...errorMessages,
         message: 'Something went wrong. Please try again.',

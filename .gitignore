@@ -13,8 +13,7 @@ dist-ssr
 *.local
 .env
 TODO
-dispatch-service/Database.db
-dispatch-service/Database - Copy.db
+dispatch-service/FlightSimCareerDispatchDatabase.db
 
 # Editor directories and files
 .vscode/*

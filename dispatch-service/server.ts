@@ -1,4 +1,5 @@
-import { PrismaClient } from '@prisma/client';
+// import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '../prisma/prismaclients/routes/index.js';
 // @ts-ignore
 import { errorHandler } from '../authorization-service/middleware/errorMiddleware.ts';
 // @ts-ignore
@@ -8,6 +9,7 @@ import { validateAccessToken } from '../authorization-service/middleware/auth0Mi
 import { object, string, pattern, assert, number, nullable } from 'superstruct';
 import cors from 'cors';
 import express from 'express';
+import ViteExpress from 'vite-express';
 import helmet from 'helmet';
 import nocache from 'nocache';
 import lodash from 'lodash';
@@ -15,15 +17,27 @@ import * as dotenv from 'dotenv';
 
 dotenv.config();
 
-const prisma = new PrismaClient({
-  datasources: { db: { url: process.env.ROUTES_DATABASE_URL } },
-});
+//access local db
+// const prisma = new PrismaClient({
+//   datasources: { db: { url: process.env.ROUTES_DATABASE_URL } },
+// });
 
-const PORT = process.env.VITE_DISPATCH_SERVICE_PORT;
+const prisma = new PrismaClient();
+
+const PORT = parseInt(process.env.VITE_DISPATCH_SERVICE_PORT as string, 10);
 const CLIENT_ORIGIN_URL = process.env.VITE_CLIENT_ORIGIN_URL;
 
 const app = express();
 const apiRouter = express.Router();
+
+app.use(
+  cors({
+    origin: CLIENT_ORIGIN_URL,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Authorization', 'Content-Type'],
+    maxAge: 86400,
+  })
+);
 
 app.use(express.json());
 app.set('json spaces', 2);
@@ -53,15 +67,6 @@ app.use((req, res, next) => {
   next();
 });
 app.use(nocache());
-
-app.use(
-  cors({
-    origin: CLIENT_ORIGIN_URL,
-    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
-    allowedHeaders: ['Authorization', 'Content-Type'],
-    maxAge: 86400,
-  })
-);
 
 app.use('/api/dispatch', apiRouter);
 
@@ -259,8 +264,6 @@ apiRouter.get(
     } catch (e) {
       (e: Error) => console.log('Error:', e.message);
       res.send(e.message);
-    } finally {
-      prisma.$disconnect();
     }
   }
 );
@@ -418,11 +421,11 @@ apiRouter.post('/generatedispatch', validateAccessToken, async (req, res) => {
     } else {
       res.send({ message: e.message });
     }
-  } finally {
-    await prisma.$disconnect();
   }
 });
 
-app.listen(PORT, () =>
-  console.log(`Dispatch-service listening on port ${PORT}`)
-);
+ViteExpress.config({ mode: 'production' });
+
+ViteExpress.listen(app, PORT, () => {
+  console.log(`Crud-service listening on port ${PORT}`);
+});

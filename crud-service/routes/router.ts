@@ -1,6 +1,7 @@
 // @ts-ignore
 import { validateAccessToken } from '../../authorization-service/middleware/auth0Middleware.ts';
-import { PrismaClient, Rank, CareerType, Prisma, Entry } from '@prisma/client';
+import { Rank, CareerType, Prisma, Entry } from '@prisma/client';
+import { PrismaClient } from '../../prisma/prismaclients/users/index.js';
 import {
   object,
   number,
@@ -16,9 +17,11 @@ import {
 import { createPaginator, PaginatedResult } from 'prisma-pagination';
 import express from 'express';
 
-const prisma = new PrismaClient({
-  datasources: { db: { url: process.env.USER_DATABASE_URL } },
-});
+const prisma = new PrismaClient();
+
+// const prisma = new PrismaClient({
+//   datasources: { db: { url: process.env.USER_DATABASE_URL } },
+// });
 
 const paginate = createPaginator({ perPage: 10 });
 
@@ -237,8 +240,6 @@ Router.post('/getuser', validateAccessToken, async (req, res) => {
   } catch (e) {
     (e: Error) => console.error('Error:', e.message);
     res.status(500).send({ message: e.message });
-  } finally {
-    await prisma.$disconnect();
   }
 });
 
@@ -252,8 +253,6 @@ Router.post('/createuser', validateAccessToken, async (req, res) => {
   } catch (e) {
     (e: Error) => console.error('Error:', e.message);
     res.status(500).send({ message: e.message });
-  } finally {
-    await prisma.$disconnect();
   }
 });
 
@@ -272,8 +271,6 @@ Router.post('/getcareer', validateAccessToken, async (req, res) => {
   } catch (e) {
     (e: Error) => console.error('Error:', e.message);
     res.send({ message: e.message });
-  } finally {
-    await prisma.$disconnect();
   }
 });
 Router.post('/getcareers', validateAccessToken, async (req, res) => {
@@ -292,8 +289,6 @@ Router.post('/getcareers', validateAccessToken, async (req, res) => {
   } catch (e) {
     (e: Error) => console.error('Error:', e.message);
     res.send({ message: e.message });
-  } finally {
-    await prisma.$disconnect();
   }
 });
 
@@ -352,8 +347,6 @@ Router.post('/setusersettings', validateAccessToken, async (req, res) => {
     } else {
       res.send(e.message);
     }
-  } finally {
-    await prisma.$disconnect();
   }
 });
 
@@ -415,8 +408,6 @@ Router.post('/createcareer', validateAccessToken, async (req, res) => {
     } else {
       res.send(e.message);
     }
-  } finally {
-    await prisma.$disconnect();
   }
 });
 
@@ -474,8 +465,6 @@ Router.post('/updatecareer', validateAccessToken, async (req, res) => {
     } else {
       res.send(e.message);
     }
-  } finally {
-    await prisma.$disconnect();
   }
 });
 
@@ -516,8 +505,6 @@ Router.post('/promoteuser', validateAccessToken, async (req, res) => {
   } catch (e) {
     (e: Error) => console.error('Error:', e.message);
     res.send(e.message);
-  } finally {
-    await prisma.$disconnect();
   }
 });
 
@@ -533,8 +520,6 @@ Router.post('/deletecareer', validateAccessToken, async (req, res) => {
   } catch (e) {
     (e: Error) => console.error('Error:', e.message);
     res.send({ message: e.message });
-  } finally {
-    await prisma.$disconnect();
   }
 });
 
@@ -648,8 +633,6 @@ Router.post('/getlogbook', validateAccessToken, async (req, res) => {
   } catch (e) {
     (e: Error) => console.log('Error:', e.message);
     res.send({ message: e.message });
-  } finally {
-    await prisma.$disconnect();
   }
 });
 
@@ -667,8 +650,6 @@ Router.post('/getdispatch', validateAccessToken, async (req, res) => {
   } catch (e) {
     (e: Error) => console.log(e.message);
     res.send({ error: e.message });
-  } finally {
-    await prisma.$disconnect();
   }
 });
 
@@ -686,8 +667,6 @@ Router.post('/savedispatch', validateAccessToken, async (req, res) => {
   } catch (e) {
     (e: Error) => console.log(e.message);
     res.send({ error: e.message });
-  } finally {
-    await prisma.$disconnect();
   }
 });
 
@@ -720,7 +699,7 @@ Router.post('/createlogbookentry', validateAccessToken, async (req, res) => {
   };
 
   try {
-    await prisma.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx: any) => {
       assert(logbookEntryData, LogbookEntryValidation);
       const updateUserLogbook = await prisma.logbook.update({
         where: {
@@ -764,8 +743,6 @@ Router.post('/createlogbookentry', validateAccessToken, async (req, res) => {
     } else {
       res.send(e.message);
     }
-  } finally {
-    await prisma.$disconnect();
   }
 });
 
@@ -780,7 +757,7 @@ Router.patch('/updatelogbookentry', validateAccessToken, async (req, res) => {
   errorMessages = {};
 
   try {
-    await prisma.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx: any) => {
       const entryData: any = await prisma.entry.findUnique({
         where: { id: entryId },
       });
@@ -850,7 +827,5 @@ Router.patch('/updatelogbookentry', validateAccessToken, async (req, res) => {
     } else {
       res.send(e.message);
     }
-  } finally {
-    await prisma.$disconnect();
   }
 });

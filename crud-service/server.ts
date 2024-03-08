@@ -18,6 +18,15 @@ const CLIENT_ORIGIN_URL = process.env.VITE_CLIENT_ORIGIN_URL;
 const app = express();
 const apiRouter = express.Router();
 
+app.use(
+  cors({
+    origin: CLIENT_ORIGIN_URL,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+    allowedHeaders: ['Authorization', 'Content-Type'],
+    maxAge: 86400,
+  })
+);
+
 app.use(express.json());
 app.set('json spaces', 2);
 
@@ -47,22 +56,13 @@ app.use((req, res, next) => {
 });
 app.use(nocache());
 
-app.use(
-  cors({
-    origin: CLIENT_ORIGIN_URL,
-    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
-    allowedHeaders: ['Authorization', 'Content-Type'],
-    maxAge: 86400,
-  })
-);
-
 app.use('/api', apiRouter);
 apiRouter.use('/userdata', Router);
 
 app.use(errorHandler);
 app.use(notFoundHandler);
 
-ViteExpress.config({ mode: 'development' });
+ViteExpress.config({ mode: 'production' });
 
 ViteExpress.listen(app, PORT, () => {
   console.log(`Crud-service listening on port ${PORT}`);

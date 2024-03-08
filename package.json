@@ -7,7 +7,7 @@
     "client": "vite",
     "crud": "nodemon --exec node --loader ts-node/esm crud-service/server.ts",
     "dispatch": "nodemon --exec node --loader ts-node/esm dispatch-service/server.ts",
-    "dev": "concurrently \"npm run dispatch\" \"npm run crud\"",
+    "dev": "concurrently \"npm run crud\" \"npm run dispatch\"",
     "build": "tsc && vite build",
     "test": "vitest",
     "preview": "vite preview"
@@ -17,6 +17,7 @@
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
     "@fortawesome/free-solid-svg-icons": "^6.4.2",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "@prisma/client": "^5.9.1",
     "@tanstack/react-query": "^4.24.10",
     "@types/cors": "^2.8.13",
     "@types/react-simple-maps": "^3.0.0",
@@ -28,6 +29,7 @@
     "helmet": "^6.0.1",
     "lodash": "^4.17.21",
     "nocache": "^3.0.4",
+    "prisma": "^5.9.1",
     "prisma-pagination": "^0.2.3",
     "react": "^18.2.0",
     "react-cookie-consent": "^9.0.0",
@@ -40,7 +42,6 @@
     "vite-express": "^0.3.1"
   },
   "devDependencies": {
-    "@prisma/client": "^5.2.0",
     "@tanstack/react-query-devtools": "^4.29.7",
     "@types/express": "^4.17.17",
     "@types/lodash": "^4.14.195",
@@ -54,7 +55,6 @@
     "postcss": "^8.4.21",
     "postcss-cli": "^10.1.0",
     "postcss-preset-env": "^7.8.3",
-    "prisma": "^5.2.0",
     "ts-node": "^10.9.1",
     "typescript": "^4.9.3",
     "vite": "^4.0.0"
