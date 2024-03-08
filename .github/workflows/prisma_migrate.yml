@@ -12,8 +12,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Apply pending migrations to users database
         run: npx prisma migrate deploy --schema=prisma/users/schema.prisma
-        # env:
-        #   DIRECT_URL: ${{ secrets.SUPABASE_USERS_DB_CONNECTION_STRING }}
+        env:
+          DIRECT_URL: ${{ secrets.SUPABASE_USERS_DIRECTURL }}
       - name: Apply pending migrations to routes database
         run: npx prisma migrate deploy --schema=prisma/routes/schema.prisma
         env:
