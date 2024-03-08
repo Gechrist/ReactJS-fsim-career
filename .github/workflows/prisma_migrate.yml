@@ -8,6 +8,8 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
       - name: Apply pending migrations to users database
         run: npx prisma migrate deploy --schema=prisma/users/schema.prisma
         env:
