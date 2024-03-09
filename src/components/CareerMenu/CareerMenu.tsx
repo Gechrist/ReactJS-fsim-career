@@ -19,8 +19,7 @@ const CareerMenu = () => {
   const { getAccessTokenSilently } = useAuth0();
   const location = useLocation();
 
-  const appDomain = import.meta.env.VITE_APP_DOMAIN;
-  const crudService = import.meta.env.VITE_CRUD_SERVICE_PORT;
+  const crudService = import.meta.env.VITE_CRUD_SERVICE_URL;
 
   const careerData = useQuery({
     queryKey: ['career', location.state.careerId],
@@ -31,7 +30,7 @@ const CareerMenu = () => {
     const accessToken: string = await getAccessTokenSilently();
     try {
       const { data } = await axios.post(
-        `${appDomain}:${crudService}/api/userdata/getcareer`,
+        `${crudService}/api/userdata/getcareer`,
         { careerId: location.state.careerId },
         {
           headers: {

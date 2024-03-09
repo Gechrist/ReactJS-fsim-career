@@ -8,6 +8,7 @@
     "crud": "nodemon --exec node --loader ts-node/esm crud-service/server.ts",
     "dispatch": "nodemon --exec node --loader ts-node/esm dispatch-service/server.ts",
     "dev": "concurrently \"npm run crud\" \"npm run dispatch\"",
+    "start": "concurrently \"npm run crud\" \"npm run dispatch\" \"npm run client\"",
     "build": "tsc && vite build",
     "test": "vitest",
     "preview": "vite preview"

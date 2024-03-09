@@ -1,4 +1,4 @@
-# [FLIGHTSIMCAREER REACT + VITEEXPRESS App](https://next-js-hypermarket-eshop.vercel.app/)
+# [FLIGHTSIMCAREER REACTJS(VITE) + VITE-EXPRESS APP](https://next-js-hypermarket-eshop.vercel.app/)
 
 ## OVERVIEW
 

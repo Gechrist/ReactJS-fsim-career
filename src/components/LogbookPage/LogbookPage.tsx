@@ -38,8 +38,7 @@ const LogbookPage = () => {
 
   let newEntry: any = {};
 
-  const appDomain = import.meta.env.VITE_APP_DOMAIN;
-  const crudService = import.meta.env.VITE_CRUD_SERVICE_PORT;
+  const crudService = import.meta.env.VITE_CRUD_SERVICE_URL;
 
   const logbookEntries: any = useQuery({
     queryKey: [
@@ -76,7 +75,7 @@ const LogbookPage = () => {
     const accessToken: string = await getAccessTokenSilently();
     try {
       const { data } = await axios.post(
-        `${appDomain}:${crudService}/api/userdata/getlogbook`,
+        `${crudService}/api/userdata/getlogbook`,
         {
           logbookId: logbookId,
           pageNumber,
@@ -176,7 +175,7 @@ const LogbookPage = () => {
     const accessToken = await getAccessTokenSilently();
     try {
       const { data } = await axios.post(
-        `${appDomain}:${crudService}/api/userdata/createlogbookentry`,
+        `${crudService}/api/userdata/createlogbookentry`,
         formData,
         {
           headers: {
@@ -208,7 +207,7 @@ const LogbookPage = () => {
     const accessToken = await getAccessTokenSilently();
     try {
       const { data, status } = await axios.patch(
-        `${appDomain}:${crudService}/api/userdata/updatelogbookentry`,
+        `${crudService}/api/userdata/updatelogbookentry`,
         formData,
         {
           headers: {
@@ -336,7 +335,7 @@ const LogbookPage = () => {
     const accessToken = await getAccessTokenSilently();
     try {
       const { data } = await axios.post(
-        `${appDomain}:${crudService}/api/userdata/promoteuser`,
+        `${crudService}/api/userdata/promoteuser`,
         formData,
         {
           headers: {

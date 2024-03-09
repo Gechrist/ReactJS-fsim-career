@@ -22,9 +22,8 @@ const CareerPage = ({ careerData }: { careerData?: any }) => {
   const [errorMessages, setErrorMessages] = useState<IErrorMessage>({});
   const [isLoading, setLoading] = useState<boolean>(true);
 
-  const appDomain = import.meta.env.VITE_APP_DOMAIN;
-  const crudService = import.meta.env.VITE_CRUD_SERVICE_PORT;
-  const dispatchService = import.meta.env.VITE_DISPATCH_SERVICE_PORT;
+  const crudService = import.meta.env.VITE_CRUD_SERVICE_URL;
+  const dispatchService = import.meta.env.VITE_DISPATCH_SERVICE_URL;
 
   const cachedUserSettings = JSON.parse(
     localStorage.getItem('cachedUserSettings') as string
@@ -48,7 +47,7 @@ const CareerPage = ({ careerData }: { careerData?: any }) => {
     const accessToken: string = await getAccessTokenSilently();
     try {
       const { data } = await axios.get(
-        `${appDomain}:${dispatchService}/api/dispatch/getcareeroptionsdata`,
+        `${dispatchService}/api/dispatch/getcareeroptionsdata`,
         {
           headers: {
             'content-type': 'application/json',
@@ -102,7 +101,7 @@ const CareerPage = ({ careerData }: { careerData?: any }) => {
     const accessToken = await getAccessTokenSilently();
     try {
       const { data } = await axios.post(
-        `${appDomain}:${crudService}/api/userdata/${
+        `${crudService}/api/userdata/${
           editCareerOptions ? 'updatecareer' : 'createcareer'
         }`,
         formData,

@@ -26,8 +26,7 @@ const Dashboard = () => {
   const navigate: NavigateFunction = useNavigate();
   const dashboardRoute = useMatch('/dashboard');
 
-  const appDomain = import.meta.env.VITE_APP_DOMAIN;
-  const crudService = import.meta.env.VITE_CRUD_SERVICE_PORT;
+  const crudService = import.meta.env.VITE_CRUD_SERVICE_URL;
 
   useEffect(() => {
     if (dashboardRoute?.pathname != '/dashboard') {
@@ -51,7 +50,7 @@ const Dashboard = () => {
       const accessToken: string = await getAccessTokenSilently();
 
       const { data, status } = await axios.post(
-        `${appDomain}:${crudService}/api/userdata/${arg}`,
+        `${crudService}/api/userdata/${arg}`,
         { data: { id: loggedUser } },
         {
           headers: {
@@ -140,7 +139,7 @@ const Dashboard = () => {
     try {
       const accessToken: string = await getAccessTokenSilently();
       const { data } = await axios.post(
-        `${appDomain}:${crudService}/api/userdata/getcareers`,
+        `${crudService}/api/userdata/getcareers`,
         { id: loggedUser },
         {
           headers: {
@@ -175,7 +174,7 @@ const Dashboard = () => {
   const deleteCareerFunction = async (id: string, accessToken: string) => {
     try {
       const { data } = await axios.post(
-        `${appDomain}:${crudService}/api/userdata/deletecareer`,
+        `${crudService}/api/userdata/deletecareer`,
         { data: { careerId: id } },
         {
           headers: {

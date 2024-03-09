@@ -55,9 +55,8 @@ const CareerDispatch = ({ careerData }: { careerData: any }) => {
   let origDispatchLines: number[] = [];
   let grayDispatchLines: number[] = [];
 
-  const appDomain = import.meta.env.VITE_APP_DOMAIN;
-  const crudService = import.meta.env.VITE_CRUD_SERVICE_PORT;
-  const dispatchService = import.meta.env.VITE_DISPATCH_SERVICE_PORT;
+  const crudService = import.meta.env.VITE_CRUD_SERVICE_URL;
+  const dispatchService = import.meta.env.VITE_DISPATCH_SERVICE_URL;
 
   const handleNewDispatch = () => {
     lineCoords.splice(0, lineCoords.length);
@@ -133,7 +132,7 @@ const CareerDispatch = ({ careerData }: { careerData: any }) => {
     const accessToken = await getAccessTokenSilently();
     try {
       const { data } = await axios.post(
-        `${appDomain}:${crudService}/api/userdata/getdispatch`,
+        `${crudService}/api/userdata/getdispatch`,
         { careerId: careerData.id },
         {
           headers: {
@@ -164,7 +163,7 @@ const CareerDispatch = ({ careerData }: { careerData: any }) => {
     const accessToken = await getAccessTokenSilently();
     try {
       const { data } = await axios.post(
-        `${appDomain}:${dispatchService}/api/dispatch/generatedispatch`,
+        `${dispatchService}/api/dispatch/generatedispatch`,
         {
           legNumber,
           careerBase: careerData.base,
@@ -227,7 +226,7 @@ const CareerDispatch = ({ careerData }: { careerData: any }) => {
     const accessToken = await getAccessTokenSilently();
     try {
       const { data } = await axios.post(
-        `${appDomain}:${crudService}/api/userdata/savedispatch`,
+        `${crudService}/api/userdata/savedispatch`,
         {
           careerId: careerData.id,
           dispatchData,

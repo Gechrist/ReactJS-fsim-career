@@ -30,8 +30,7 @@ const Settings = () => {
   const { getAccessTokenSilently } = useAuth0();
   const settingsRef = useRef<Array<HTMLInputElement | null>>([]);
 
-  const appDomain = import.meta.env.VITE_APP_DOMAIN;
-  const crudService = import.meta.env.VITE_CRUD_SERVICE_PORT;
+  const crudService = import.meta.env.VITE_CRUD_SERVICE_URL;
 
   // preview settings until page refresh
   const darkModeFunction = () => {
@@ -66,7 +65,7 @@ const Settings = () => {
     const accessToken = await getAccessTokenSilently();
     try {
       const { data } = await axios.post(
-        `${appDomain}:${crudService}/api/userdata/setusersettings`,
+        `${crudService}/api/userdata/setusersettings`,
         formData,
         {
           headers: {

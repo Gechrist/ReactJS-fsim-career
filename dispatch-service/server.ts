@@ -427,5 +427,5 @@ apiRouter.post('/generatedispatch', validateAccessToken, async (req, res) => {
 ViteExpress.config({ mode: 'production' });
 
 ViteExpress.listen(app, PORT, () => {
-  console.log(`Crud-service listening on port ${PORT}`);
+  console.log(`Dispatch-service listening on port ${PORT}`);
 });
