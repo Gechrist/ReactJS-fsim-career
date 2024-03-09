@@ -16,13 +16,15 @@ jobs:
           node-version: 20.x
           cache: "npm"
       - name: Create .env file
-        run: echo SUPABASE_USERS_DIRECTURL=${{ secrets.SUPABASE_USERS_DIRECTURL }} > .env
+        run: |
+            echo SUPABASE_ROUTES_DIRECTURL=${{ secrets.SUPABASE_ROUTES_DIRECTURL }} > .env
+            echo SUPABASE_ROUTES_URL=${{ secrets.SUPABASE_ROUTES_URL }} > .env
+            echo SUPABASE_USERS_DIRECTURL=${{ secrets.SUPABASE_USERS_DIRECTURL }} > .env
+            echo SUPABASE_USERS_URL=${{ secrets.SUPABASE_USERS_URL }} > .env
       - name: Deploy migrations to users database
         run: npx prisma migrate deploy --schema=prisma/users/schema.prisma
         env:
           DIRECT_URL: ${{ secrets.SUPABASE_USERS_DIRECTURL }}
-      - name: Create .env file
-        run: echo SUPABASE_ROUTES_DIRECTURL=${{ secrets.SUPABASE_ROUTES_DIRECTURL }} > .env
       - name: Apply pending migrations to routes database
         run: npx prisma migrate deploy --schema=prisma/routes/schema.prisma
         env:
