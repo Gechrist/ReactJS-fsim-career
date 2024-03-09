@@ -21,6 +21,10 @@ jobs:
             echo SUPABASE_ROUTES_URL=${{ secrets.SUPABASE_ROUTES_URL }} > .env
             echo SUPABASE_USERS_DIRECTURL=${{ secrets.SUPABASE_USERS_DIRECTURL }} > .env
             echo SUPABASE_USERS_URL=${{ secrets.SUPABASE_USERS_URL }} > .env
+            echo SUPABASE_ROUTES_DIRECTURL
+            echo SUPABASE_ROUTES_URL
+            echo SUPABASE_USERS_DIRECTURL
+            echo SUPABASE_USERS_URL
       - name: Deploy migrations to users database
         run: npx prisma migrate deploy --schema=prisma/users/schema.prisma
         env:
