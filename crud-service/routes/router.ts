@@ -256,8 +256,8 @@ Router.post('/createuser', validateAccessToken, async (req, res) => {
   }
 });
 
-Router.post('/getcareer', validateAccessToken, async (req, res) => {
-  const careerId: string = req.body.careerId;
+Router.get('/getcareer', validateAccessToken, async (req, res) => {
+  const careerId: string = req.query.careerId as string;
   try {
     const career = await prisma.career.findUnique({
       where: { id: careerId },
@@ -273,8 +273,8 @@ Router.post('/getcareer', validateAccessToken, async (req, res) => {
     res.send({ message: e.message });
   }
 });
-Router.post('/getcareers', validateAccessToken, async (req, res) => {
-  const userId: string = req.body.id;
+Router.get('/getcareers', validateAccessToken, async (req, res) => {
+  const userId: string = req.query.id as string;
   try {
     const careers = await prisma.career.findMany({
       where: { userId: userId },
@@ -523,12 +523,12 @@ Router.post('/deletecareer', validateAccessToken, async (req, res) => {
   }
 });
 
-Router.post('/getlogbook', validateAccessToken, async (req, res) => {
-  const logbookId: string = req.body?.logbookId;
-  const pageNumber: number = req.body?.pageNumber;
-  const perPageNumber: number = req.body?.perPageNumber;
-  const searchField: string | null = req.body?.searchField;
-  const careerId: string = req.body?.careerId;
+Router.get('/getlogbook', validateAccessToken, async (req, res) => {
+  const logbookId: string = req.query?.logbookId as string;
+  const pageNumber: number = parseInt(req.query?.pageNumber as string);
+  const perPageNumber: number = parseInt(req.query?.perPageNumber as string);
+  const searchField: string | null = req.query?.searchField as string;
+  const careerId: string = req.query?.careerId as string;
 
   const searchEntryArg: any = searchField
     ? {
@@ -636,8 +636,8 @@ Router.post('/getlogbook', validateAccessToken, async (req, res) => {
   }
 });
 
-Router.post('/getdispatch', validateAccessToken, async (req, res) => {
-  const careerId = req.body.careerId;
+Router.get('/getdispatch', validateAccessToken, async (req, res) => {
+  const careerId: string = req.query.careerId as string;
   try {
     const getDispatchData = await prisma.dispatch.findUnique({
       where: { careerId: careerId },

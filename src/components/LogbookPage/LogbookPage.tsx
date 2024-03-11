@@ -74,16 +74,16 @@ const LogbookPage = () => {
   ): Promise<any> => {
     const accessToken: string = await getAccessTokenSilently();
     try {
-      const { data } = await axios.post(
+      const { data } = await axios.get(
         `${crudService}/api/userdata/getlogbook`,
         {
-          logbookId: logbookId,
-          pageNumber,
-          perPageNumber,
-          searchField,
-          careerId: location.state.careerId,
-        },
-        {
+          params: {
+            logbookId: logbookId,
+            pageNumber,
+            perPageNumber,
+            searchField,
+            careerId: location.state.careerId,
+          },
           headers: {
             'content-type': 'application/json',
             authorization: `Bearer ${accessToken}`,

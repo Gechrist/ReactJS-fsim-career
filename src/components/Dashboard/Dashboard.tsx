@@ -138,10 +138,10 @@ const Dashboard = () => {
   const getCareersFunction = async (loggedUser: string) => {
     try {
       const accessToken: string = await getAccessTokenSilently();
-      const { data } = await axios.post(
+      const { data } = await axios.get(
         `${crudService}/api/userdata/getcareers`,
-        { id: loggedUser },
         {
+          params: { id: loggedUser },
           headers: {
             'content-type': 'application/json',
             authorization: `Bearer ${accessToken}`,

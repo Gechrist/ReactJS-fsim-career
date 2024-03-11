@@ -131,10 +131,10 @@ const CareerDispatch = ({ careerData }: { careerData: any }) => {
   const getDispatchDataFunction = async (): Promise<any> => {
     const accessToken = await getAccessTokenSilently();
     try {
-      const { data } = await axios.post(
+      const { data } = await axios.get(
         `${crudService}/api/userdata/getdispatch`,
-        { careerId: careerData.id },
         {
+          params: { careerId: careerData.id },
           headers: {
             'content-type': 'application/json',
             Authorization: `Bearer ${accessToken}`,
@@ -162,17 +162,17 @@ const CareerDispatch = ({ careerData }: { careerData: any }) => {
   const generateDispatchDataFunction = async () => {
     const accessToken = await getAccessTokenSilently();
     try {
-      const { data } = await axios.post(
+      const { data } = await axios.get(
         `${dispatchService}/api/dispatch/generatedispatch`,
         {
-          legNumber,
-          careerBase: careerData.base,
-          careerAircraft: inclAircraft ? careerData.aircraft : null,
-          careerCompany: inclCompany ? careerData.company : null,
-          minLeg,
-          maxLeg,
-        },
-        {
+          params: {
+            legNumber,
+            careerBase: careerData.base,
+            careerAircraft: inclAircraft ? careerData.aircraft : null,
+            careerCompany: inclCompany ? careerData.company : null,
+            minLeg,
+            maxLeg,
+          },
           headers: {
             'content-type': 'application/json',
             Authorization: `Bearer ${accessToken}`,

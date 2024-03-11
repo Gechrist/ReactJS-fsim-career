@@ -268,14 +268,14 @@ apiRouter.get(
   }
 );
 
-apiRouter.post('/generatedispatch', validateAccessToken, async (req, res) => {
+apiRouter.get('/generatedispatch', validateAccessToken, async (req, res) => {
   let terminate: boolean = false;
-  const legNumber: number = parseInt(req.body.legNumber);
-  const base: string = req.body.careerBase;
-  const aircraft: string = req.body.careerAircraft;
-  const company: string = req.body.careerCompany;
-  const minLeg: number = parseInt(req.body.minLeg) ?? 1;
-  const maxLeg: number = parseInt(req.body.maxLeg) ?? 10000;
+  const legNumber: number = parseInt(req.query.legNumber as string);
+  const base: string = req.query.careerBase as string;
+  const aircraft: string = req.query.careerAircraft as string;
+  const company: string = req.query.careerCompany as string;
+  const minLeg: number = parseInt(req.query.minLeg as string) ?? 1;
+  const maxLeg: number = parseInt(req.query.maxLeg as string) ?? 10000;
 
   // reset flights
   flights = [];

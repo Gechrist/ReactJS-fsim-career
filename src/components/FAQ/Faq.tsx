@@ -15,6 +15,9 @@ const Faq = () => {
     false,
     false,
     false,
+    false,
+    false,
+    false,
   ]);
 
   const answerRef = useRef<Array<HTMLElement | null>>([]);
