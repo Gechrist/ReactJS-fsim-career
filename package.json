@@ -9,7 +9,7 @@
     "dispatch": "nodemon --exec node --loader ts-node/esm dispatch-service/server.ts",
     "dev": "concurrently \"npm run crud\" \"npm run dispatch\"",
     "start": "concurrently \"npm run crud\" \"npm run dispatch\" \"npm run client\"",
-    "build": "tsc & vite build",
+    "build": "tsc",
     "test": "vitest",
     "preview": "vite preview"
   },

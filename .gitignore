@@ -15,6 +15,7 @@ dist-ssr
 TODO
 dispatch-service/FlightSimCareerDispatchDatabase.db
 dist
+tsconfig copy.json
 
 # Editor directories and files
 .vscode/*
