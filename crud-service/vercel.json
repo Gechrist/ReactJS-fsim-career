@@ -2,7 +2,7 @@
   "version": 2,
   "builds": [
     {
-      "src": "*.js",
+      "src": "/dist-crud",
       "use": "@vercel/node"
     }
   ],
