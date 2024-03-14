@@ -1,18 +1,6 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "/dist-crud",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/dist-crud/crud-service/server.js"
-    }
-  ],
   "rewrites": [
-    { "source": "/(.*)", "destination": "/dist-crud/crud-service/server.js" }
+    { "source": "/(.*)", "destination": "/dist-crud/crud-service/index.js" }
   ]
 }
