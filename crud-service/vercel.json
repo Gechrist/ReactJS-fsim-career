@@ -12,5 +12,7 @@
       "dest": "server.js"
     }
   ],
-  "rewrites": [{ "source": "/(.*)", "destination": "/" }]
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/dist-crud/crud-service/server.js" }
+  ]
 }

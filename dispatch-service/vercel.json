@@ -12,5 +12,10 @@
       "dest": "server.js"
     }
   ],
-  "rewrites": [{ "source": "/(.*)", "destination": "/" }]
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/dist-dispatch/dispatch-service/server.js"
+    }
+  ]
 }
