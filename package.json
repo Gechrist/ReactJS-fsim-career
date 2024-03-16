@@ -9,9 +9,10 @@
     "dispatch": "nodemon --exec node --loader ts-node/esm dispatch-service/server.ts",
     "dev": "concurrently \"npm run crud\" \"npm run dispatch\"",
     "start": "concurrently \"npm run crud\" \"npm run dispatch\" \"npm run client\"",
+    "start-crud": "npm run crud",
+    "start-dispatch": "npm run dispatch",
     "build": "tsc & vite build",
-    "dist": "tsc",
-    "test": "vitest",
+    "dist": "tsc --build",
     "preview": "vite preview"
   },
   "dependencies": {

@@ -15,19 +15,19 @@ const PORT = parseInt(process.env.VITE_CRUD_SERVICE_PORT, 10);
 const CLIENT_ORIGIN_URL = process.env.VITE_CLIENT_ORIGIN_URL;
 const app = express();
 const apiRouter = express.Router();
-// app.use(
-//   cors({
-//     origin: 'https://fsim-career.vercel.app',
-//     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
-//     allowedHeaders: [
-//       'Content-Type',
-//       'Authorization',
-//       'Access-Control-Allow-Methods',
-//       'Access-Control-Request-Headers',
-//     ],
-//     credentials: true,
-//   })
-// );
+app.use(
+  cors({
+    origin: CLIENT_ORIGIN_URL,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+    allowedHeaders: [
+      'Content-Type',
+      'Authorization',
+      'Access-Control-Allow-Methods',
+      'Access-Control-Request-Headers',
+    ],
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.set('json spaces', 2);
 app.use(
