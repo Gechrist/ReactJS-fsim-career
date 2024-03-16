@@ -1,7 +1,6 @@
 // @ts-ignore
 import { validateAccessToken } from '../../authorization-service/middleware/auth0Middleware.ts';
-import { Rank, CareerType, Prisma, Entry } from '@prisma/client';
-import { PrismaClient } from '../../prisma/prismaclients/users/index.js';
+import { Rank, CareerType, Prisma, Entry, PrismaClient } from '@prisma/client';
 import {
   object,
   number,
@@ -19,6 +18,7 @@ import express from 'express';
 
 const prisma = new PrismaClient();
 
+// connect to local database
 // const prisma = new PrismaClient({
 //   datasources: { db: { url: process.env.USER_DATABASE_URL } },
 // });

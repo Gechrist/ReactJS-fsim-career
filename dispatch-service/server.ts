@@ -1,5 +1,4 @@
-// import { PrismaClient } from '@prisma/client';
-import { PrismaClient } from '../prisma/prismaclients/routes/index.js';
+import { PrismaClient } from '@prisma/client';
 // @ts-ignore
 import { errorHandler } from '../authorization-service/middleware/errorMiddleware.ts';
 // @ts-ignore
@@ -17,7 +16,7 @@ import * as dotenv from 'dotenv';
 
 dotenv.config();
 
-//access local db
+//connect to local db
 // const prisma = new PrismaClient({
 //   datasources: { db: { url: process.env.ROUTES_DATABASE_URL } },
 // });

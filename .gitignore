@@ -7,15 +7,17 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
 *.local
-.env
 TODO
+authorization-service/middleware/node_modules
+authorization-service/middleware/.env
+client/node_modules
+client/.env
+crud-service/.env
+crud-service/node_modules
 dispatch-service/FlightSimCareerDispatchDatabase.db
-dist
-tsconfig copy.json
+dispatch-service/.env
+dispatch-service/node_modules
 
 # Editor directories and files
 .vscode/*

@@ -16,8 +16,7 @@
     "noEmit": false,
     "jsx": "react-jsx",
     "typeRoots": ["node_modules/@types"],
-    "useUnknownInCatchVariables": false,
-    "outDir": "dist-crud"
+    "useUnknownInCatchVariables": false
   },
   "ts-node": {
     "esm": true
