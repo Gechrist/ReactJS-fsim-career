@@ -1,5 +1,3 @@
 {
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/api/dispatch-service/index.js" }
-  ]
+  "rewrites": [{ "source": "/(.*)", "destination": "/api/dispatch-service" }]
 }
