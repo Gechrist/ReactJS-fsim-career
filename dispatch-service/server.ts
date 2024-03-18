@@ -1,9 +1,8 @@
 import { PrismaClient } from '@prisma/client';
-import { errorHandler } from './authorization-service/middleware/errorMiddleware';
-import { notFoundHandler } from './authorization-service/middleware/notFoundMiddleware';
-import { validateAccessToken } from './authorization-service/middleware/auth0Middleware';
+import { errorHandler } from '../authorization-service/middleware/errorMiddleware';
+import { notFoundHandler } from '../authorization-service/middleware/notFoundMiddleware';
+import { validateAccessToken } from '../authorization-service/middleware/auth0Middleware';
 import { object, string, pattern, assert, number, nullable } from 'superstruct';
-import bodyParser from 'body-parser';
 import cors from 'cors';
 import express from 'express';
 import ViteExpress from 'vite-express';
@@ -11,16 +10,22 @@ import helmet from 'helmet';
 import nocache from 'nocache';
 import lodash from 'lodash';
 import * as dotenv from 'dotenv';
+
 dotenv.config();
+
 //connect to local db
 // const prisma = new PrismaClient({
 //   datasources: { db: { url: process.env.ROUTES_DATABASE_URL } },
 // });
+
 const prisma = new PrismaClient();
-const PORT = parseInt(process.env.VITE_DISPATCH_SERVICE_PORT, 10);
+
+const PORT = parseInt(process.env.VITE_DISPATCH_SERVICE_PORT as string, 10);
 const CLIENT_ORIGIN_URL = process.env.VITE_CLIENT_ORIGIN_URL;
+
 const app = express();
 const apiRouter = express.Router();
+
 app.use(
   cors({
     origin: CLIENT_ORIGIN_URL,
@@ -34,8 +39,10 @@ app.use(
     credentials: true,
   })
 );
-app.use(bodyParser.json());
+
+app.use(express.json());
 app.set('json spaces', 2);
+
 app.use(
   helmet({
     hsts: {
@@ -55,22 +62,56 @@ app.use(
     },
   })
 );
+
 app.use((req, res, next) => {
   res.contentType('application/json; charset=utf-8');
   next();
 });
 app.use(nocache());
+
 app.use('/api/dispatch', apiRouter);
+
 app.use(errorHandler);
 app.use(notFoundHandler);
-let flights = [];
-let returningFlights = [];
-let randomisedNumber = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-let errorMessages = {};
-const randomizeFlights = (array) => {
+
+type Flight = {
+  depTime: string;
+  icaoDep: string;
+  icaoArr: string;
+  flightNo: string;
+  depLat: number;
+  depLong: number;
+  arrLat: number;
+  arrLong: number;
+};
+
+let flights: Array<any> = [];
+let returningFlights: Array<any> = [];
+let randomisedNumber: Array<string> = [
+  '0',
+  '1',
+  '2',
+  '3',
+  '4',
+  '5',
+  '6',
+  '7',
+  '8',
+  '9',
+];
+let errorMessages: {
+  base?: string;
+  aircraft?: string;
+  company?: string;
+  minLeg?: string;
+  maxLeg?: string;
+} = {};
+
+const randomizeFlights = (array: Flight[]) => {
   return array.sort(() => Math.random() - 0.5);
 };
-const generateReturningFlights = (flights) => {
+
+const generateReturningFlights = (flights: Flight[]) => {
   // reverse order of flights to return to base
   returningFlights = lodash.cloneDeep(flights);
   returningFlights.reverse().forEach((element) => {
@@ -89,22 +130,28 @@ const generateReturningFlights = (flights) => {
       element['depLat'],
       element['depLong'],
     ];
+
     // randomize return dep time
-    let randomTime = randomTimeFunction();
+    let randomTime: string = randomTimeFunction();
     while (randomTime === element.depTime) {
       randomTime = randomTimeFunction();
     }
     element.depTime = randomTime;
+
     // randomize return flight no
-    let randomNumber = randomisedNumber[Math.floor(Math.random() * 10)];
+    let randomNumber: string = randomisedNumber[Math.floor(Math.random() * 10)];
+
     while (randomNumber === element.flightNo[element.flightNo.length]) {
       randomNumber = randomisedNumber[Math.floor(Math.random() * 10)];
     }
+
     element.flightNo =
       element.flightNo.substring(0, element.flightNo.length - 1) + randomNumber;
   });
+
   return returningFlights;
 };
+
 // validate dispatch data
 const dispatchDataValidation = object({
   base: pattern(string(), /^[A-Z0-9]{3,4}$/),
@@ -113,7 +160,8 @@ const dispatchDataValidation = object({
   minLeg: number(),
   maxLeg: number(),
 });
-const validationDispatchFunction = (failures) => {
+
+const validationDispatchFunction = (failures: any) => {
   for (const failure of failures) {
     switch (failure.key) {
       case 'aircraft': {
@@ -141,22 +189,26 @@ const validationDispatchFunction = (failures) => {
     }
   }
 };
+
 //randomise return leg time of dep
+
 const randomTimeFunction = () => {
   let hrs = Math.round(Math.random() * 24);
   let mins = Math.round(Math.random() * 60);
   var hFormat = hrs < 10 ? '0' : '';
   var mFormat = mins < 10 ? '0' : '';
+
   return String(hFormat + hrs + ':' + mFormat + mins);
 };
+
 const getRoutes = async (
-  dep,
-  minLeg,
-  maxLeg,
-  aircraft,
-  company,
-  arr,
-  returnOneLeg
+  dep: string,
+  minLeg: number,
+  maxLeg: number,
+  aircraft: string,
+  company: string,
+  arr: string | null,
+  returnOneLeg: boolean
 ) => {
   let flightLegs = await prisma.routes.findMany({
     where: {
@@ -180,15 +232,18 @@ const getRoutes = async (
       arrLong: true,
     },
   });
+
   if (flightLegs.length > 0 && returnOneLeg) {
-    const randomLeg = flightLegs[Math.floor(Math.random() * flightLegs.length)];
-    return randomLeg;
+    const randomLeg =
+      flightLegs[Math.floor(Math.random() * flightLegs.length) as number];
+    return randomLeg as Flight;
   } else if (flightLegs.length > 0 && !returnOneLeg) {
-    return flightLegs;
+    return flightLegs as Flight[];
   }
-  let randomLeg = undefined;
+  let randomLeg: any = undefined;
   return randomLeg;
 };
+
 apiRouter.get(
   '/getcareeroptionsdata',
   validateAccessToken,
@@ -208,35 +263,39 @@ apiRouter.get(
         res.status(200).send({ aircraftData, companyData });
       }
     } catch (e) {
-      (e) => console.log('Error:', e.message);
+      (e: Error) => console.log('Error:', e.message);
       res.send(e.message);
     }
   }
 );
+
 apiRouter.get('/generatedispatch', validateAccessToken, async (req, res) => {
-  let terminate = false;
-  const legNumber = parseInt(req.query.legNumber);
-  const base = req.query.careerBase;
-  const aircraft = req.query.careerAircraft;
-  const company = req.query.careerCompany;
-  const minLeg = parseInt(req.query.minLeg) ?? 1;
-  const maxLeg = parseInt(req.query.maxLeg) ?? 10000;
+  let terminate: boolean = false;
+  const legNumber: number = parseInt(req.query.legNumber as string);
+  const base: string = req.query.careerBase as string;
+  const aircraft: string = req.query.careerAircraft as string;
+  const company: string = req.query.careerCompany as string;
+  const minLeg: number = parseInt(req.query.minLeg as string) ?? 1;
+  const maxLeg: number = parseInt(req.query.maxLeg as string) ?? 10000;
+
   // reset flights
   flights = [];
   returningFlights = [];
   errorMessages = {};
-  const dispatchData = {
+
+  const dispatchData: any = {
     base,
     aircraft,
     company,
     minLeg,
     maxLeg,
   };
+
   try {
     assert(dispatchData, dispatchDataValidation);
-    for (let i = 0; i < legNumber; i++) {
+    for (let i: number = 0; i < legNumber; i++) {
       if (i === 0) {
-        let randomLeg = await getRoutes(
+        let randomLeg: Flight = await getRoutes(
           base,
           minLeg,
           maxLeg,
@@ -260,7 +319,7 @@ apiRouter.get('/generatedispatch', validateAccessToken, async (req, res) => {
           flights.push(randomLeg);
         }
       } else {
-        let randomLeg = await getRoutes(
+        let randomLeg: Flight = await getRoutes(
           flights[i - 1].icaoArr,
           minLeg,
           maxLeg,
@@ -269,6 +328,7 @@ apiRouter.get('/generatedispatch', validateAccessToken, async (req, res) => {
           null,
           true
         );
+
         if (!randomLeg) {
           res.status(200).send({
             message: 'Please check your settings and try again',
@@ -289,9 +349,11 @@ apiRouter.get('/generatedispatch', validateAccessToken, async (req, res) => {
     if (terminate) {
       return;
     }
+
     // generate return legs if necessary
     if (flights[0].icaoDep !== flights[flights.length - 1].icaoArr) {
       let numOutgoingFlights = flights.length;
+
       let returningLeg = await getRoutes(
         flights[flights.length - 1].icaoArr,
         minLeg,
@@ -309,7 +371,7 @@ apiRouter.get('/generatedispatch', validateAccessToken, async (req, res) => {
         );
         flights.push(returningLeg);
       } else {
-        let outboundFromLast = await getRoutes(
+        let outboundFromLast: Flight[] = await getRoutes(
           flights[flights.length - 1].icaoArr,
           minLeg,
           maxLeg,
@@ -320,7 +382,7 @@ apiRouter.get('/generatedispatch', validateAccessToken, async (req, res) => {
         );
         if (outboundFromLast.length > 0) {
           outboundFromLast = randomizeFlights(outboundFromLast);
-          let flight;
+          let flight: any;
           for (flight of outboundFromLast) {
             let returnToStart = await getRoutes(
               flight.icaoArr,
@@ -353,7 +415,7 @@ apiRouter.get('/generatedispatch', validateAccessToken, async (req, res) => {
     }
     res.status(200).send(flights);
   } catch (e) {
-    (e) => console.log('Error:', e.message);
+    (e: Error) => console.log('Error:', e.message);
     if (e.failures()) {
       validationDispatchFunction(e.failures());
       res.send(errorMessages);
@@ -362,7 +424,9 @@ apiRouter.get('/generatedispatch', validateAccessToken, async (req, res) => {
     }
   }
 });
+
 ViteExpress.config({ mode: 'production' });
+
 ViteExpress.listen(app, PORT, () => {
   console.log(`Dispatch-service listening on port ${PORT}`);
 });

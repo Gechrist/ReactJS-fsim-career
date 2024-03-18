@@ -17,7 +17,7 @@
     "jsx": "react-jsx",
     "typeRoots": ["node_modules/@types"],
     "useUnknownInCatchVariables": false,
-    "outDir": "api"
+    "outDir": "dist"
   },
   "ts-node": {
     "esm": true
