@@ -1,5 +1,5 @@
 {
   "rewrites": [
-    { "source": "/(.*)", "destination": "/dist/crud-service/server.js" }
+    { "source": "/(.*)", "destination": "/api/crud-service/index.js" }
   ]
 }
