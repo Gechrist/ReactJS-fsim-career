@@ -2,6 +2,7 @@ import { Router } from './crud-service/routes/router';
 import { errorHandler } from './authorization-service/middleware/errorMiddleware';
 import { notFoundHandler } from './authorization-service/middleware/notFoundMiddleware';
 import * as dotenv from 'dotenv';
+import bodyParser from 'body-parser';
 import cors from 'cors';
 import express from 'express';
 import helmet from 'helmet';
@@ -25,7 +26,7 @@ app.use(
     credentials: true,
   })
 );
-app.use(express.json());
+app.use(bodyParser.json());
 app.set('json spaces', 2);
 app.use(
   helmet({

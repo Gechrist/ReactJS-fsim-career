@@ -3,6 +3,7 @@ import { errorHandler } from './authorization-service/middleware/errorMiddleware
 import { notFoundHandler } from './authorization-service/middleware/notFoundMiddleware';
 import { validateAccessToken } from './authorization-service/middleware/auth0Middleware';
 import { object, string, pattern, assert, number, nullable } from 'superstruct';
+import bodyParser from 'body-parser';
 import cors from 'cors';
 import express from 'express';
 import ViteExpress from 'vite-express';
@@ -33,7 +34,7 @@ app.use(
     credentials: true,
   })
 );
-app.use(express.json());
+app.use(bodyParser.json());
 app.set('json spaces', 2);
 app.use(
   helmet({

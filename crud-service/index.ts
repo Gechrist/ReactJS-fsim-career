@@ -1,6 +1,7 @@
 import { Router } from './routes/router';
 import { errorHandler } from '../authorization-service/middleware/errorMiddleware';
 import { notFoundHandler } from '../authorization-service/middleware/notFoundMiddleware';
+import bodyParser from 'body-parser';
 import * as dotenv from 'dotenv';
 import cors from 'cors';
 import express from 'express';
@@ -29,7 +30,7 @@ app.use(
   })
 );
 
-app.use(express.json());
+app.use(bodyParser.json());
 app.set('json spaces', 2);
 
 app.use(
