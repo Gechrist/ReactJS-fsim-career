@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc && vite build",
+    "build": "tsc",
     "ts-start": "node --loader ts-node/esm server.ts",
     "start": "node  dist/crud-service/server.js"
   },
