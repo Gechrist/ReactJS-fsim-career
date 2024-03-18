@@ -7,8 +7,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "ts-start": "node --loader ts-node/esm server.ts",
-    "start": "node dist/dispatch-service/server.js"
+    "start": "node --loader ts-node/esm server.ts"
   },
   "author": "George Christodoulou",
   "license": "ISC",
