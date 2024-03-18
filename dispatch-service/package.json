@@ -6,8 +6,8 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc",
-    "start": "node --loader ts-node/esm server.ts"
+    "build": "tsc && vite build",
+    "start": "node --loader ts-node/esm dist/dispatch-service/server.js"
   },
   "author": "George Christodoulou",
   "license": "ISC",
@@ -27,6 +27,7 @@
     "vite-express": "^0.15.0"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.17",
     "@types/node": "^20.11.28",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.2"

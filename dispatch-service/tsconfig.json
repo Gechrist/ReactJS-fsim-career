@@ -13,13 +13,14 @@
     "moduleResolution": "Node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
+    "noEmit": false,
     "jsx": "react-jsx",
     "typeRoots": ["node_modules/@types"],
-    "useUnknownInCatchVariables": false
+    "useUnknownInCatchVariables": false,
+    "outDir": "dist"
   },
   "ts-node": {
     "esm": true
   },
-  "include": ["authorization-service"]
+  "filesGlob": ["../authorization-service/**/*.ts"]
 }

@@ -1,9 +1,6 @@
-// @ts-ignore
-import { Router } from './routes/router.ts';
-// @ts-ignore
-import { errorHandler } from '../authorization-service/middleware/errorMiddleware.ts';
-// @ts-ignore
-import { notFoundHandler } from '../authorization-service/middleware/notFoundMiddleware.ts';
+import { Router } from './routes/router';
+import { errorHandler } from '../authorization-service/middleware/errorMiddleware';
+import { notFoundHandler } from '../authorization-service/middleware/notFoundMiddleware';
 import * as dotenv from 'dotenv';
 import cors from 'cors';
 import express from 'express';
