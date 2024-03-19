@@ -1,5 +1,4 @@
-// @ts-ignore
-import { validateAccessToken } from '../../authorization-service/middleware/auth0Middleware.ts';
+import { validateAccessToken } from '../../authorization-service/middleware/auth0Middleware';
 import { Rank, CareerType, Prisma, Entry, PrismaClient } from '@prisma/client';
 import {
   object,
