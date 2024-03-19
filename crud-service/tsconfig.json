@@ -19,6 +19,7 @@
     "useUnknownInCatchVariables": false,
     "outDir": "api",
     "paths": {
+      "Router": ["./routes/router"],
       "errorHandler": ["../authorization-service/middleware/errorMiddleware"],
       "notFound": ["../authorization-service/middleware/notFoundMiddleware"],
       "validateAccessToken": [
