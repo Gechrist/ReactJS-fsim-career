@@ -2,13 +2,13 @@
   "name": "fsim-career-dispatch-service",
   "version": "1.0.0",
   "description": "web service for route data",
-  "main": "server.ts",
+  "main": "index.ts",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "dev": "node --loader ts-node/esm server.ts",
-    "start": "node server.js"
+    "dev": "node --loader ts-node/esm index.ts",
+    "start": "node api/dispatch-service/index.js"
   },
   "author": "George Christodoulou",
   "license": "ISC",

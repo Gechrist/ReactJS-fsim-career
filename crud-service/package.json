@@ -2,12 +2,12 @@
   "name": "fsim-career-crud-service",
   "version": "1.0.0",
   "description": "web service for user data",
-  "main": "server.ts",
+  "main": "index.ts",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "dev": "node --loader ts-node/esm server.ts",
+    "dev": "node --loader ts-node/esm index.ts",
     "start": "node api/crud-service/index.js"
   },
   "author": "George Christodoulou",
