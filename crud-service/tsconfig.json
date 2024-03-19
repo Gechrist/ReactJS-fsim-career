@@ -17,10 +17,17 @@
     "jsx": "react-jsx",
     "typeRoots": ["node_modules/@types"],
     "useUnknownInCatchVariables": false,
-    "outDir": "dist"
+    "outDir": "dist",
+    "paths": {
+      "errorHandler": ["../authorization-service/middleware/errorMiddleware"],
+      "notFound": ["../authorization-service/middleware/notFoundMiddleware"],
+      "validateAccessToken": [
+        "../authorization-service/middleware/auth0Middleware"
+      ]
+    }
   },
   "ts-node": {
     "esm": true
-  },
-  "filesGlob": ["../authorization-service/**/*.ts"]
+  }
 }
+// "filesGlob": ["../authorization-service/**/*.ts"]
