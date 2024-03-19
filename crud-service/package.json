@@ -8,7 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
     "dev": "node --loader ts-node/esm server.ts",
-    "start": "node server.js"
+    "start": "node dist/crud-service/index.js"
   },
   "author": "George Christodoulou",
   "license": "ISC",
