@@ -17,7 +17,7 @@
     "jsx": "react-jsx",
     "typeRoots": ["node_modules/@types"],
     "useUnknownInCatchVariables": false,
-    "outDir": "dist",
+    "outDir": "api",
     "paths": {
       "errorHandler": ["../authorization-service/middleware/errorMiddleware"],
       "notFound": ["../authorization-service/middleware/notFoundMiddleware"],
