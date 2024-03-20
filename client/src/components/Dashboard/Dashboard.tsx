@@ -200,7 +200,7 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    if (careersData.error || careersData.data) {
+    if (careersData.error || careersData.data.length > 0) {
       setIsLoading(false);
       if (careersData.error) {
         throw new Error('Error:', careersData.error);
