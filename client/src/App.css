@@ -22,7 +22,7 @@
   justify-content: center;
   margin-top: -50%;
   width: 100%;
-  colours: white;
+  colour: white;
   & h1 {
     font-style: italic;
     font-size: 2.8em;
