@@ -13,6 +13,7 @@ import { Helmet } from 'react-helmet-async';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Notification from '../Notifications/Notification';
+import Loading from '../Loading/Loading';
 import axios from 'axios';
 import world from './worldCountries.json';
 import './CareerDispatch.css';
@@ -30,6 +31,7 @@ const CareerDispatch = ({ careerData }: { careerData: any }) => {
   const [inclCompany, setInclCompany] = useState<boolean>(true);
   const [isFetching, setIsFetching] = useState<boolean>(false);
   const [isSaving, setIsSaving] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [toggleComplete, setToggleComplete] = useState<boolean>(false);
   const [showCoords, setShowCoords] = useState<boolean>(false);
   const [message, setMessage] = useState<string>('');
@@ -193,6 +195,7 @@ const CareerDispatch = ({ careerData }: { careerData: any }) => {
   useEffect(() => {
     if (getDispatchData.data) {
       setDispatchData([...getDispatchData.data]);
+      setIsLoading(false);
     }
   }, [getDispatchData.data]);
 
@@ -285,225 +288,229 @@ const CareerDispatch = ({ careerData }: { careerData: any }) => {
         <title>Dispatch - FlightSim Career</title>
         <link rel="canonical" href="/dashboard/pilot" />
       </Helmet>
-      {message && <Notification message={message} />}
-      <div className="dispatch-menu">
-        <h2>Dispatch</h2>
-        <div id="dispatch-options">
-          <select
-            style={{ textTransform: 'uppercase', textAlign: 'center' }}
-            name="aircraftType"
-            defaultValue="1"
-            onChange={(e: ChangeEvent<HTMLSelectElement>) =>
-              setLegNumber(e.target.value)
-            }
-          >
-            <option value="1">1 Leg</option>
-            <option value="2">2 Leg</option>
-            <option value="3">3 Leg</option>
-            <option value="4">4 Leg</option>
-            <option value="5">5 Leg</option>
-            <option value="6">6 Leg</option>
-            <option value="7">7 Leg</option>
-          </select>
-          <input
-            type="number"
-            placeholder="Min. Leg. (Default: 1nm)"
-            step="1"
-            min="0"
-            style={{ textAlign: 'center' }}
-            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              setMinLeg(e.target.value)
-            }
-          />
-          <input
-            type="number"
-            placeholder="Max. Leg. (Default: 10,000nm)"
-            step="1"
-            min="0"
-            style={{ textAlign: 'center' }}
-            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              setMaxLeg(e.target.value)
-            }
-          />
-          <div>
-            <label htmlFor="include-aircraft">Search by Aircraft:</label>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <div className="dispatch-menu">
+          {message && <Notification message={message} />}
+          <h2>Dispatch</h2>
+          <div id="dispatch-options">
+            <select
+              style={{ textTransform: 'uppercase', textAlign: 'center' }}
+              name="aircraftType"
+              defaultValue="1"
+              onChange={(e: ChangeEvent<HTMLSelectElement>) =>
+                setLegNumber(e.target.value)
+              }
+            >
+              <option value="1">1 Leg</option>
+              <option value="2">2 Leg</option>
+              <option value="3">3 Leg</option>
+              <option value="4">4 Leg</option>
+              <option value="5">5 Leg</option>
+              <option value="6">6 Leg</option>
+              <option value="7">7 Leg</option>
+            </select>
             <input
-              type="checkbox"
-              id="include-aircraft"
-              checked={inclAircraft}
+              type="number"
+              placeholder="Min. Leg. (Default: 1nm)"
+              step="1"
+              min="0"
+              style={{ textAlign: 'center' }}
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setInclAircraft(!inclAircraft)
+                setMinLeg(e.target.value)
               }
             />
-          </div>
-          <div>
-            <label htmlFor="include-company">Search by Company:</label>
             <input
-              type="checkbox"
-              id="include-company"
-              checked={inclCompany}
+              type="number"
+              placeholder="Max. Leg. (Default: 10,000nm)"
+              step="1"
+              min="0"
+              style={{ textAlign: 'center' }}
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setInclCompany(!inclCompany)
+                setMaxLeg(e.target.value)
               }
             />
+            <div>
+              <label htmlFor="include-aircraft">Search by Aircraft:</label>
+              <input
+                type="checkbox"
+                id="include-aircraft"
+                checked={inclAircraft}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setInclAircraft(!inclAircraft)
+                }
+              />
+            </div>
+            <div>
+              <label htmlFor="include-company">Search by Company:</label>
+              <input
+                type="checkbox"
+                id="include-company"
+                checked={inclCompany}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setInclCompany(!inclCompany)
+                }
+              />
+            </div>
           </div>
-        </div>
-        <div className="dispatch-table">
-          <table>
-            <thead>
-              <tr>
-                <th>Flight:</th>
-                <th>Departure:</th>
-                <th>Arrival:</th>
-                <th>Time of Departure:</th>
-                <th>Completed:</th>
-              </tr>
-            </thead>
-            <tbody>
-              {dispatchData && dispatchData.length > 0 ? (
-                dispatchData.map((flight: any, index: number) => (
-                  <tr
-                    className={`${
-                      grayOutDispatchLines.includes(index) &&
-                      'dispatch-line' + ' ' + 'gray' + ' ' + index
-                    }`}
-                    key={index}
-                    onClick={() =>
-                      travelLineCoordsFunction(
-                        flight.depLong,
-                        flight.depLat,
-                        flight.arrLong,
-                        flight.arrLat,
-                        flight.icaoDep,
-                        flight.icaoArr
-                      )
-                    }
-                  >
-                    <td>{careerData?.company + ' ' + flight.flightNo}</td>
-                    <td>{flight.icaoDep}</td>
-                    <td>{flight.icaoArr}</td>
-                    <td>{flight.depTime}</td>
+          <div className="dispatch-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Flight:</th>
+                  <th>Departure:</th>
+                  <th>Arrival:</th>
+                  <th>Time of Departure:</th>
+                  <th>Completed:</th>
+                </tr>
+              </thead>
+              <tbody>
+                {dispatchData && dispatchData.length > 0 ? (
+                  dispatchData.map((flight: any, index: number) => (
+                    <tr
+                      className={`${
+                        grayOutDispatchLines.includes(index) &&
+                        'dispatch-line' + ' ' + 'gray' + ' ' + index
+                      }`}
+                      key={index}
+                      onClick={() =>
+                        travelLineCoordsFunction(
+                          flight.depLong,
+                          flight.depLat,
+                          flight.arrLong,
+                          flight.arrLat,
+                          flight.icaoDep,
+                          flight.icaoArr
+                        )
+                      }
+                    >
+                      <td>{careerData?.company + ' ' + flight.flightNo}</td>
+                      <td>{flight.icaoDep}</td>
+                      <td>{flight.icaoArr}</td>
+                      <td>{flight.depTime}</td>
+                      <td>
+                        <input
+                          type="checkbox"
+                          checked={flight?.completed ? true : false}
+                          onChange={(e) => {
+                            colorDispatchLineFunction(index);
+                            handleMarkFlightComplete(index, e);
+                          }}
+                        />
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                     <td>
-                      <input
-                        type="checkbox"
-                        checked={flight?.completed ? true : false}
-                        onChange={(e) => {
-                          colorDispatchLineFunction(index);
-                          handleMarkFlightComplete(index, e);
-                        }}
-                      />
+                      <input type="checkbox" />
                     </td>
                   </tr>
-                ))
-              ) : (
-                <tr>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td>
-                    <input type="checkbox" />
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
-        {Object.values(errorMessages).map(
-          (error: string, index: number) =>
-            error != '' && (
-              <span className="dispatch-errors" key={index}>
-                {error}
-              </span>
-            )
-        )}
-        <div className="dispatch-buttons">
-          {isFetching ? (
-            <button onClick={() => handleNewDispatch()}>
-              <FontAwesomeIcon icon={faCircleNotch} spin />
-              &nbsp; New Dispatch{' '}
-            </button>
-          ) : (
-            <button onClick={() => handleNewDispatch()}>New Dispatch </button>
+                )}
+              </tbody>
+            </table>
+          </div>
+          {Object.values(errorMessages).map(
+            (error: string, index: number) =>
+              error != '' && (
+                <span className="dispatch-errors" key={index}>
+                  {error}
+                </span>
+              )
           )}
-          {isSaving ? (
-            <button
-              className="green-save-button"
-              onClick={() => handleSaveDispatch()}
-            >
-              <FontAwesomeIcon icon={faCircleNotch} spin />
-              &nbsp; Save Dispatch{' '}
-            </button>
-          ) : (
-            <button
-              className="green-save-button"
-              onClick={() => handleSaveDispatch()}
-            >
-              Save Dispatch{' '}
-            </button>
-          )}
-        </div>
-        <div id="map">
-          <ComposableMap
-            projection="geoEqualEarth"
-            projectionConfig={{
-              scale: 150,
-            }}
-          >
-            <Graticule stroke="#DDD" />
-            <Geographies
-              geography={geoUrl}
-              fill="#D6D6DA"
-              stroke="#FFFFFF"
-              strokeWidth={0.5}
-            >
-              {({ geographies }) =>
-                geographies.map((geo) => (
-                  <Geography key={geo.rsmKey} geography={geo} />
-                ))
-              }
-            </Geographies>
-            {lineCoords.length > 0 && (
-              <Line
-                from={[lineCoords[0] as number, lineCoords[1] as number]}
-                to={[lineCoords[2] as number, lineCoords[3] as number]}
-                stroke="#FF5533"
-                strokeWidth={1}
-                strokeLinecap="round"
-              />
+          <div className="dispatch-buttons">
+            {isFetching ? (
+              <button onClick={() => handleNewDispatch()}>
+                <FontAwesomeIcon icon={faCircleNotch} spin />
+                &nbsp; New Dispatch{' '}
+              </button>
+            ) : (
+              <button onClick={() => handleNewDispatch()}>New Dispatch </button>
             )}
-            {icaoAirports.length > 0 &&
-              showCoords &&
-              icaoAirports.map((airport: any, index: number) => (
-                <Annotation
-                  key={index}
-                  subject={
-                    index === 0
-                      ? [lineCoords[0] as number, lineCoords[1] as number]
-                      : [lineCoords[2] as number, lineCoords[3] as number]
-                  }
-                  dx={0}
-                  dy={index === 0 ? -10 : 10}
-                  connectorProps={{
-                    stroke: '#FF5533',
-                    strokeWidth: 0.5,
-                    strokeLinecap: 'round',
-                  }}
-                >
-                  <text
-                    x="0"
-                    y={index === 0 ? '-8' : '8'}
-                    textAnchor="middle"
-                    alignmentBaseline="middle"
-                    fill="#F53"
+            {isSaving ? (
+              <button
+                className="green-save-button"
+                onClick={() => handleSaveDispatch()}
+              >
+                <FontAwesomeIcon icon={faCircleNotch} spin />
+                &nbsp; Save Dispatch{' '}
+              </button>
+            ) : (
+              <button
+                className="green-save-button"
+                onClick={() => handleSaveDispatch()}
+              >
+                Save Dispatch{' '}
+              </button>
+            )}
+          </div>
+          <div id="map">
+            <ComposableMap
+              projection="geoEqualEarth"
+              projectionConfig={{
+                scale: 150,
+              }}
+            >
+              <Graticule stroke="#DDD" />
+              <Geographies
+                geography={geoUrl}
+                fill="#D6D6DA"
+                stroke="#FFFFFF"
+                strokeWidth={0.5}
+              >
+                {({ geographies }) =>
+                  geographies.map((geo) => (
+                    <Geography key={geo.rsmKey} geography={geo} />
+                  ))
+                }
+              </Geographies>
+              {lineCoords.length > 0 && (
+                <Line
+                  from={[lineCoords[0] as number, lineCoords[1] as number]}
+                  to={[lineCoords[2] as number, lineCoords[3] as number]}
+                  stroke="#FF5533"
+                  strokeWidth={1}
+                  strokeLinecap="round"
+                />
+              )}
+              {icaoAirports.length > 0 &&
+                showCoords &&
+                icaoAirports.map((airport: any, index: number) => (
+                  <Annotation
+                    key={index}
+                    subject={
+                      index === 0
+                        ? [lineCoords[0] as number, lineCoords[1] as number]
+                        : [lineCoords[2] as number, lineCoords[3] as number]
+                    }
+                    dx={0}
+                    dy={index === 0 ? -10 : 10}
+                    connectorProps={{
+                      stroke: '#FF5533',
+                      strokeWidth: 0.5,
+                      strokeLinecap: 'round',
+                    }}
                   >
-                    {airport}
-                  </text>
-                </Annotation>
-              ))}
-          </ComposableMap>
+                    <text
+                      x="0"
+                      y={index === 0 ? '-8' : '8'}
+                      textAnchor="middle"
+                      alignmentBaseline="middle"
+                      fill="#F53"
+                    >
+                      {airport}
+                    </text>
+                  </Annotation>
+                ))}
+            </ComposableMap>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

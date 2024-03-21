@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query';
-import { IErrorMessage } from '../../../crud-service/routes/router';
+import { IErrorMessage } from '../../../../crud-service/routes/router';
 import { Helmet } from 'react-helmet-async';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
@@ -12,7 +12,6 @@ import Notification from '../Notifications/Notification';
 import Loading from '../Loading/Loading';
 import PromoMessage from '../Notifications/PromoMessage';
 import './LogbookPage.css';
-import { contentSecurityPolicy } from 'helmet';
 
 type EntryValue = {
   value: string | number | boolean;
