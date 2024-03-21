@@ -22,7 +22,7 @@
   justify-content: center;
   margin-top: -50%;
   width: 100%;
-  colour: white;
+  color: white;
   & h1 {
     font-style: italic;
     font-size: 2.8em;
@@ -52,7 +52,7 @@
   .intro_login {
     width: 50%;
     margin-top: 0%;
-    colour: black;
+    color: black;
     & h1 {
       font-size: 3em;
     }
