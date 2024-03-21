@@ -40,7 +40,6 @@ const CareerPage = ({ careerData }: { careerData?: any }) => {
     queryFn: async () => {
       return getCareerOptionsDataFunction();
     },
-    enabled: !!pilot,
   });
 
   const getCareerOptionsDataFunction = async () => {
