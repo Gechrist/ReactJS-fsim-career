@@ -31,7 +31,6 @@ const CareerDispatch = ({ careerData }: { careerData: any }) => {
   const [inclCompany, setInclCompany] = useState<boolean>(true);
   const [isFetching, setIsFetching] = useState<boolean>(false);
   const [isSaving, setIsSaving] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [toggleComplete, setToggleComplete] = useState<boolean>(false);
   const [showCoords, setShowCoords] = useState<boolean>(false);
   const [message, setMessage] = useState<string>('');
@@ -195,7 +194,6 @@ const CareerDispatch = ({ careerData }: { careerData: any }) => {
   useEffect(() => {
     if (getDispatchData.data) {
       setDispatchData([...getDispatchData.data]);
-      setIsLoading(false);
     }
   }, [getDispatchData.data]);
 
@@ -288,7 +286,7 @@ const CareerDispatch = ({ careerData }: { careerData: any }) => {
         <title>Dispatch - FlightSim Career</title>
         <link rel="canonical" href="/dashboard/pilot" />
       </Helmet>
-      {isLoading ? (
+      {getDispatchData.isLoading ? (
         <Loading />
       ) : (
         <div className="dispatch-menu">
