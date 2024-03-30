@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useLocation } from 'react-router-dom';
 import { IErrorMessage } from '../../../../crud-service/routes/router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Helmet } from 'react-helmet-async';
@@ -16,12 +17,12 @@ const CareerPage = ({ careerData }: { careerData?: any }) => {
   const flightHoursRef = useRef<HTMLInputElement | null>(null);
   const [isSaving, setIsSaving] = useState<boolean>(false);
   const [message, setMessage] = useState<string>('');
-  const [editCareerOptions, setEditCareerOptions] = useState<boolean>(false);
+  const [editCareerOptions, setEditCareerOptions] = useState<boolean>(true);
   const [userId] = useState<string>(user?.sub?.slice(6) as string);
   const [pilot, setPilotData] = useState<any>(careerData ?? null);
   const [errorMessages, setErrorMessages] = useState<IErrorMessage>({});
   const [isLoading, setLoading] = useState<boolean>(true);
-
+  const { pathname } = useLocation();
   const crudService = import.meta.env.VITE_CRUD_SERVICE_URL;
   const dispatchService = import.meta.env.VITE_DISPATCH_SERVICE_URL;
 
@@ -30,10 +31,10 @@ const CareerPage = ({ careerData }: { careerData?: any }) => {
   );
 
   useEffect(() => {
-    if (pilot) {
-      setEditCareerOptions(true);
+    if (pathname === '/dashboard/new') {
+      setEditCareerOptions(false);
     }
-  }, [pilot]);
+  }, [pathname]);
 
   const careerOptionsData: any = useQuery({
     queryKey: ['careerOptionsData'],
@@ -271,7 +272,7 @@ const CareerPage = ({ careerData }: { careerData?: any }) => {
                     <input
                       type="text"
                       list="aircraft-types"
-                      id="type"
+                      id="aircraft-type"
                       style={{ textTransform: 'uppercase' }}
                       name="aircraftType"
                       placeholder="Your Aircraft Type"

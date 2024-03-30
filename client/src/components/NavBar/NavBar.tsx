@@ -1,19 +1,11 @@
 import { NavigateFunction, useNavigate, Link } from 'react-router-dom';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { useAuth0 } from '@auth0/auth0-react';
-import { Dispatch, SetStateAction, useContext, useEffect } from 'react';
-import { StateContext } from '../../context/context';
-import axios from 'axios';
 import './NavBar.css';
 
 const NavBar = () => {
   const navigate: NavigateFunction = useNavigate();
   const { user, logout } = useAuth0();
-  const navigateTo = (to: string): void => {
-    navigate(`/dashboard/${to}`, {
-      state: { id: user?.sub?.slice(6) },
-    });
-  };
 
   const queryClient = useQueryClient();
 
@@ -33,7 +25,15 @@ const NavBar = () => {
               : 'user'}
           </Link>
           <div className="user-menu-settings">
-            <button onClick={() => navigateTo('settings')}>Settings</button>
+            <button
+              onClick={() =>
+                navigate('/dashboard/settings', {
+                  state: { id: user?.sub?.slice(6) },
+                })
+              }
+            >
+              Settings
+            </button>
             <button
               onClick={() => {
                 logout({ logoutParams: { returnTo: window.location.origin } });
@@ -45,7 +45,7 @@ const NavBar = () => {
             </button>
           </div>
         </div>
-        <button onClick={() => navigateTo('faq')}>FAQ</button>
+        <button onClick={() => navigate('/faq')}>FAQ</button>
       </div>
     </div>
   );

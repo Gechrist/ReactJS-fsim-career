@@ -1,7 +1,10 @@
 import { PrismaClient } from '@prisma/client';
-import { errorHandler } from '../authorization-service/middleware/errorMiddleware';
-import { notFoundHandler } from '../authorization-service/middleware/notFoundMiddleware';
-import { validateAccessToken } from '../authorization-service/middleware/auth0Middleware';
+//@ts-ignore
+import { errorHandler } from '../authorization-service/middleware/errorMiddleware.ts';
+//@ts-ignore
+import { notFoundHandler } from '../authorization-service/middleware/notFoundMiddleware.ts';
+//@ts-ignore
+import { validateAccessToken } from '../authorization-service/middleware/auth0Middleware.ts';
 import { object, string, pattern, assert, number, nullable } from 'superstruct';
 import cors from 'cors';
 import express from 'express';
@@ -261,6 +264,8 @@ apiRouter.get(
       });
       if (aircraftData && companyData) {
         res.status(200).send({ aircraftData, companyData });
+      } else {
+        res.status(500).send({ error: 'Internal Server Error' });
       }
     } catch (e) {
       (e: Error) => console.log('Error:', e.message);

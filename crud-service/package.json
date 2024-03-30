@@ -8,7 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
     "postinstall": "prisma generate",
-    "dev": "node --loader ts-node/esm index.ts",
+    "dev": "node --watch --loader=ts-node/esm index.ts",
     "start": "node api/crud-service/index.js"
   },
   "author": "George Christodoulou",

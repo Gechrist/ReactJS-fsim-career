@@ -19,14 +19,20 @@ import './Dashboard.css';
 const Dashboard = () => {
   const { user, getAccessTokenSilently } = useAuth0();
   const { dispatch } = useContext<any>(StateContext);
-  const queryClient = useQueryClient();
   const [message, setMessage] = useState<string>('');
   const [showCareers, setShowCareers] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const queryClient = useQueryClient();
   const navigate: NavigateFunction = useNavigate();
   const dashboardRoute = useMatch('/dashboard');
 
   const crudService = import.meta.env.VITE_CRUD_SERVICE_URL;
+
+  useEffect(() => {
+    if (window.location.pathname == '/dashboard/new') {
+      navigate('/dashboard/new');
+    }
+  }, []);
 
   useEffect(() => {
     if (dashboardRoute?.pathname != '/dashboard') {

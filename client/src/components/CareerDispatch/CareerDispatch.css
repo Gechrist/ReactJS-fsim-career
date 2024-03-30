@@ -4,6 +4,7 @@
   align-items: center;
   gap: 1em;
   overflow-y: visible;
+  margin-top: 10px;
 }
 
 .dispatch-errors {

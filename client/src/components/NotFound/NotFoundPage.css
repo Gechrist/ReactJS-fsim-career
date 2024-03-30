@@ -1,0 +1,11 @@
+.div-not-found {
+  display: flex;
+  flex-direction: column;
+  height: calc(100dvh - 7em);
+}
+
+.h2-not-found {
+  margin: auto;
+  text-align: center;
+  width: 80%;
+}

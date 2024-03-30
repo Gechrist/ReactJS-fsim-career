@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import Arrow from './faq-arrow.svg';
 import './Faq.css';
+import NavBar from '../NavBar/NavBar';
 
 const Faq = () => {
   const [displayAnswer, setDisplayAnswer] = useState<Array<boolean>>([
@@ -87,6 +88,7 @@ const Faq = () => {
           content="Frequently Asked Questions section of FlightSim Career, your go-to solution for all your virtual flight needs!"
         />
       </Helmet>
+      <NavBar />
       <h2>Frequently Asked Questions</h2>
       <div className="faq-content">
         {faqs.map((faq: any, index: number) => (

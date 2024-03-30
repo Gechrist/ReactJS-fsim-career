@@ -14,8 +14,9 @@ import CareerPage from './components/CareerPage/CareerPage';
 import Settings from './components/Settings/Settings';
 import Faq from './components/FAQ/Faq';
 import CareerMenu from './components/CareerMenu/CareerMenu';
-import './index.css';
+import NotFoundPage from './components/NotFound/NotFoundPage';
 import CookieConsent from 'react-cookie-consent';
+import './index.css';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -37,17 +38,12 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
-        path: 'faq',
-        element: <Faq />,
+        path: 'new',
+        element: <CareerPage />,
       },
       {
         path: 'settings',
         element: <Settings />,
-      },
-
-      {
-        path: 'new',
-        element: <CareerPage />,
       },
       {
         path: 'pilot',
@@ -56,9 +52,12 @@ const router = createBrowserRouter([
     ],
   },
   {
+    path: '/faq',
+    element: <Faq />,
+  },
+  {
     path: '*',
-    element: <App />,
-    errorElement: <ErrorPage />,
+    element: <NotFoundPage />,
   },
 ]);
 

@@ -28,7 +28,8 @@
     }
   },
   "ts-node": {
-    "esm": true
-  },
-  "filesGlob": ["../authorization-service/**/*.ts"]
+    "esm": true,
+    "experimentalSpecifierResolution": "node",
+    "transpileOnly": true
+  }
 }

@@ -10,6 +10,7 @@ lerna-debug.log*
 *.local
 TODO
 authorization-service/middleware/node_modules
+authorization-service/middleware/.env
 client/node_modules
 client/.env
 crud-service/.env

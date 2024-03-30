@@ -16,6 +16,7 @@
   gap: 0.2em;
   & section {
     height: 2em;
+    margin: 0 5px 0 5px;
   }
   & section:first-child {
     margin-top: 1em;
