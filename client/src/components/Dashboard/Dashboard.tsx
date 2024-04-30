@@ -63,7 +63,7 @@ const Dashboard = () => {
             'content-type': 'application/json',
             authorization: `Bearer ${accessToken}`,
           },
-          signal: AbortSignal.timeout(5000),
+          signal: AbortSignal.timeout(7000),
         }
       );
       if (status === 500) {
@@ -152,7 +152,7 @@ const Dashboard = () => {
             'content-type': 'application/json',
             authorization: `Bearer ${accessToken}`,
           },
-          signal: AbortSignal.timeout(5000),
+          signal: AbortSignal.timeout(7000),
         }
       );
       return data;
@@ -187,7 +187,7 @@ const Dashboard = () => {
             'content-type': 'application/json',
             authorization: `Bearer ${accessToken}`,
           },
-          signal: AbortSignal.timeout(5000),
+          signal: AbortSignal.timeout(7000),
         }
       );
       return data;

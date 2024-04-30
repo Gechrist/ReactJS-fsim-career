@@ -87,7 +87,7 @@ const LogbookPage = () => {
             'content-type': 'application/json',
             authorization: `Bearer ${accessToken}`,
           },
-          signal: AbortSignal.timeout(5000),
+          signal: AbortSignal.timeout(7000),
         }
       );
       return data;
@@ -181,7 +181,7 @@ const LogbookPage = () => {
             'content-type': 'application/json',
             Authorization: `Bearer ${accessToken}`,
           },
-          signal: AbortSignal.timeout(5000),
+          signal: AbortSignal.timeout(7000),
         }
       );
       return data;
@@ -213,7 +213,7 @@ const LogbookPage = () => {
             'content-type': 'application/json',
             Authorization: `Bearer ${accessToken}`,
           },
-          signal: AbortSignal.timeout(5000),
+          signal: AbortSignal.timeout(7000),
         }
       );
       return data;
@@ -341,7 +341,7 @@ const LogbookPage = () => {
             'content-type': 'application/json',
             Authorization: `Bearer ${accessToken}`,
           },
-          signal: AbortSignal.timeout(5000),
+          signal: AbortSignal.timeout(7000),
         }
       );
       return data;
