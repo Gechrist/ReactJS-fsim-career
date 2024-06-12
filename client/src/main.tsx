@@ -4,7 +4,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { StateContextProvider } from './context/context';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { HelmetProvider } from 'react-helmet-async';
-import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
@@ -76,19 +75,15 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         <QueryClientProvider client={queryClient}>
           <ReactQueryDevtools initialIsOpen={false} />
           <StateContextProvider>
-            <TransformWrapper>
-              <TransformComponent>
-                <CookieConsent
-                  location="bottom"
-                  buttonText="I agree"
-                  style={{ justifyContent: 'space-around' }}
-                >
-                  This website uses cookies. By continuing to use this site you
-                  are agreeing to our use of cookies.
-                </CookieConsent>
-                <RouterProvider router={router} />
-              </TransformComponent>
-            </TransformWrapper>
+            <CookieConsent
+              location="bottom"
+              buttonText="I agree"
+              style={{ justifyContent: 'space-around' }}
+            >
+              This website uses cookies. By continuing to use this site you are
+              agreeing to our use of cookies.
+            </CookieConsent>
+            <RouterProvider router={router} />
           </StateContextProvider>
         </QueryClientProvider>
       </Auth0Provider>

@@ -7,6 +7,7 @@ import {
   Geography,
   Graticule,
   Line,
+  ZoomableGroup,
 } from 'react-simple-maps';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Helmet } from 'react-helmet-async';
@@ -454,57 +455,59 @@ const CareerDispatch = ({ careerData }: { careerData: any }) => {
                 scale: 150,
               }}
             >
-              <Graticule stroke="#DDD" />
-              <Geographies
-                geography={geoUrl}
-                fill="#D6D6DA"
-                stroke="#FFFFFF"
-                strokeWidth={0.5}
-              >
-                {({ geographies }) =>
-                  geographies.map((geo) => (
-                    <Geography key={geo.rsmKey} geography={geo} />
-                  ))
-                }
-              </Geographies>
-              {lineCoords.length > 0 && (
-                <Line
-                  from={[lineCoords[0] as number, lineCoords[1] as number]}
-                  to={[lineCoords[2] as number, lineCoords[3] as number]}
-                  stroke="#FF5533"
-                  strokeWidth={1}
-                  strokeLinecap="round"
-                />
-              )}
-              {icaoAirports.length > 0 &&
-                showCoords &&
-                icaoAirports.map((airport: any, index: number) => (
-                  <Annotation
-                    key={index}
-                    subject={
-                      index === 0
-                        ? [lineCoords[0] as number, lineCoords[1] as number]
-                        : [lineCoords[2] as number, lineCoords[3] as number]
-                    }
-                    dx={0}
-                    dy={index === 0 ? -10 : 10}
-                    connectorProps={{
-                      stroke: '#FF5533',
-                      strokeWidth: 0.5,
-                      strokeLinecap: 'round',
-                    }}
-                  >
-                    <text
-                      x="0"
-                      y={index === 0 ? '-8' : '8'}
-                      textAnchor="middle"
-                      alignmentBaseline="middle"
-                      fill="#F53"
+              <ZoomableGroup center={[0, 0]} zoom={1}>
+                <Graticule stroke="#DDD" />
+                <Geographies
+                  geography={geoUrl}
+                  fill="#D6D6DA"
+                  stroke="#FFFFFF"
+                  strokeWidth={0.5}
+                >
+                  {({ geographies }) =>
+                    geographies.map((geo) => (
+                      <Geography key={geo.rsmKey} geography={geo} />
+                    ))
+                  }
+                </Geographies>
+                {lineCoords.length > 0 && (
+                  <Line
+                    from={[lineCoords[0] as number, lineCoords[1] as number]}
+                    to={[lineCoords[2] as number, lineCoords[3] as number]}
+                    stroke="#FF5533"
+                    strokeWidth={1}
+                    strokeLinecap="round"
+                  />
+                )}
+                {icaoAirports.length > 0 &&
+                  showCoords &&
+                  icaoAirports.map((airport: any, index: number) => (
+                    <Annotation
+                      key={index}
+                      subject={
+                        index === 0
+                          ? [lineCoords[0] as number, lineCoords[1] as number]
+                          : [lineCoords[2] as number, lineCoords[3] as number]
+                      }
+                      dx={0}
+                      dy={index === 0 ? -10 : 10}
+                      connectorProps={{
+                        stroke: '#FF5533',
+                        strokeWidth: 0.5,
+                        strokeLinecap: 'round',
+                      }}
                     >
-                      {airport}
-                    </text>
-                  </Annotation>
-                ))}
+                      <text
+                        x="0"
+                        y={index === 0 ? '-8' : '8'}
+                        textAnchor="middle"
+                        alignmentBaseline="middle"
+                        fill="#F53"
+                      >
+                        {airport}
+                      </text>
+                    </Annotation>
+                  ))}
+              </ZoomableGroup>
             </ComposableMap>
           </div>
         </div>
