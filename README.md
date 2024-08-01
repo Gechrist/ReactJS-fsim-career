@@ -2,7 +2,7 @@
 
 ## OVERVIEW
 
-This is a web app for tracking progress with flight simulators. It's built with React for the frontend and ViteExpress/Express for the backend and deployed on [Vercel](https://vercel.com) and [Render.com](https://render.com) respectively. Database data is hosted on Supabase.
+This is a web app for tracking progress with flight simulators. It's built with React for the frontend and ViteExpress/Express for the backend and it is deployed on [Vercel](https://vercel.com). Database data is hosted on Supabase.
 
 ## FEATURES
 
